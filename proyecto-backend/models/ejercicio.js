@@ -3,35 +3,39 @@ const {
     Schema
 } = mongoose;
 
-const PersonaSchema = new Schema({
-    apellido: {
+const EjercicioSchema = new Schema({
+    nombre:{
         type: String,
         required: true
     },
-    nombre: {
+    descripcion:{
         type: String,
         required: true
     },
-    dni: {
+    video:{
         type: String,
         required: true
     },
-    fecha_nac: {
+    funcion:{
         type: String,
         required: true
     },
-    celular: {
-        type: String,
+    repeticiones_promedio:{
+        type: Number,
         required: true
     },
-    domicilio: {
-        type: String,
+    series_promedio:{
+        type: Number,
         required: true
     },
-    email: {
+    area_muscular:[{
+        type: String,
+        required: true
+    }],
+    dificultad:{
         type: String,
         required: true
     }
 })
 
-module.exports = mongoose.models.Persona || mongoose.model('Persona', PersonaSchema)
+module.exports = mongoose.models.Ejercicio || mongoose.model('Ejercicio', EjercicioSchema)
