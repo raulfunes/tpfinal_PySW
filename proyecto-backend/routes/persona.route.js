@@ -6,5 +6,6 @@ const personaCtrl = require('../controllers/persona.controller');
 router.post('/', personaCtrl.createPersona);
 router.get('/', personaCtrl.getPersona);
 router.put('/:id', personaCtrl.editPersona);
+router.delete('/:id', personaCtrl.deletePersona);
 //exportacion del modulo de rutas
 module.exports = router;

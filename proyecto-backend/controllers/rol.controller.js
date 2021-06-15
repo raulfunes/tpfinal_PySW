@@ -22,7 +22,7 @@ rolCtrl.createRol = async(req, res)=>{
     }
 }
 rolCtrl.editRol = async (req, res) => {
-    const rol = new createRol(req.body);
+    const rol = new Rol(req.body);
     try {
         await Rol.updateOne({ _id: req.body._id }, rol);
         res.json({

@@ -14,6 +14,8 @@ app.use('/api/plan', require('./routes/plan.route.js'));
 app.use('/api/rutina', require('./routes/rutina.route'));
 app.use('/api/ejercicio', require('./routes/ejercicio.route.js'));
 app.use('/api/usuario', require('./routes/usuario.route.js'));
+app.use('/api/asistencia', require('./routes/asistencia.route.js'));
+app.use('/api/pago', require('./routes/pago.route.js'));
 //setting
 app.set('port', process.env.PORT || 3000);
 

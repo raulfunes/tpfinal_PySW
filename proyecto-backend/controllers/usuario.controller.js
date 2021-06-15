@@ -1,5 +1,7 @@
 const Usuario = require('./../models/usuario')
 const usuarioCtrl = {}
+const jwt = require('jsonwebtoken');
+
 usuarioCtrl.createUsuario = async (req, res) => {
     //en req.body se espera que vengan los datos de usuario a crear
     const usuario = new Usuario(req.body);
@@ -38,11 +40,15 @@ usuarioCtrl.loginUsuario = async (req, res) => {
                 msg: "not found"
             })
         } else {
+            const unToken = jwt.sign({id: user._id}, "secretkey");
             res.json({
                 status: 1,
-                msg: "success",
+                message: "success",
                 username: user.username,
-                persona: persona.nombre
+                userid: user._id,
+                persona: user.persona,
+                rol: user.rol,
+                token: unToken
             });
         }
     })

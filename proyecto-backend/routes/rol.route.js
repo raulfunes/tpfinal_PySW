@@ -4,6 +4,8 @@ const router = express.Router();
 const rolCtrl = require('./../controllers/rol.controller');
 // definiendo rutas
 router.post('/', rolCtrl.createRol);
-router.get('/:id', rolCtrl.getRol);
+router.get('/', rolCtrl.getRol);
+router.put('/:id', rolCtrl.editRol);
+router.delete('/:id', rolCtrl.deleteRol);
 //exportacion del modulo de rutas
 module.exports = router;

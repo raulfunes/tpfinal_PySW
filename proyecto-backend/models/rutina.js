@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Ejercicio = require('./ejercicio');
+const Asistencia = require('./asistencia')
 const {
     Schema
 } = mongoose;
@@ -19,6 +20,11 @@ const RutinaSchema = new Schema({
     },
     dificultad: {
         type: String,
+        required: true
+    },
+    asistencia:{
+        type: Schema.Types.ObjectId,
+        ref: Asistencia,
         required: true
     }
 })

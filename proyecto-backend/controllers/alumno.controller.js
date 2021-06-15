@@ -22,7 +22,7 @@ alumnoCtrl.createAlumno = async(req, res)=>{
     }
 }
 alumnoCtrl.editAlumno = async (req, res) => {
-    const alumno = new createAlumno(req.body);
+    const alumno = new Alumno(req.body);
     try {
         await Alumno.updateOne({ _id: req.body._id }, alumno);
         res.json({

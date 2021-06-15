@@ -5,5 +5,7 @@ const rutinaCtrl = require('./../controllers/rutina.controller');
 // definiendo rutas
 router.post('/', rutinaCtrl.createRutina);
 router.get('/', rutinaCtrl.getRutina);
+router.put('/:id', rutinaCtrl.editRutina);
+router.delete('/:id', rutinaCtrl.deleteRutina);
 //exportacion del modulo de rutas
 module.exports = router;
