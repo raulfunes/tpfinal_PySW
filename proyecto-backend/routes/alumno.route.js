@@ -4,7 +4,8 @@ const router = express.Router();
 const alumnoCtrl = require('./../controllers/alumno.controller');
 // definiendo rutas
 router.post('/', alumnoCtrl.createAlumno);
-router.get('/', alumnoCtrl.getAlumno);
+router.get('/', alumnoCtrl.getAlumnos);
+router.get('/:id', alumnoCtrl.getAlumno);
 router.put('/:id', alumnoCtrl.editAlumno);
 router.delete('/:id', alumnoCtrl.deleteAlumno);
 

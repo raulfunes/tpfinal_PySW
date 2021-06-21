@@ -1,8 +1,12 @@
 const Persona = require('../models/persona')
 const personaCtrl = {}
 
-personaCtrl.getPersona = async(req, res)=>{
+personaCtrl.getPersonas = async(req, res)=>{
     var persona = await Persona.find().populate("rol");
+    res.json(persona);
+}
+personaCtrl.getPersona = async(req, res)=>{
+    var persona = await Persona.findById(req.params.id);
     res.json(persona);
 }
 
@@ -12,7 +16,8 @@ personaCtrl.createPersona = async(req, res)=>{
         await persona.save();
         res.json({
             'status': '1',
-            'msg': 'Persona Guardada'
+            'msg': 'Persona Guardada',
+            'id': persona._id
         })
     } catch (error){
         res.json({

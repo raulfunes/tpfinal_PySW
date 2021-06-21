@@ -28,10 +28,10 @@ const EjercicioSchema = new Schema({
         type: Number,
         required: true
     },
-    area_muscular:[{
+    area_muscular:{
         type: String,
         required: true
-    }],
+    },
     dificultad:{
         type: String,
         required: true

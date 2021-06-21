@@ -4,7 +4,8 @@ const router = express.Router();
 const personaCtrl = require('../controllers/persona.controller');
 // definiendo rutas
 router.post('/', personaCtrl.createPersona);
-router.get('/', personaCtrl.getPersona);
+router.get('/', personaCtrl.getPersonas);
+router.get('/:id', personaCtrl.getPersona);
 router.put('/:id', personaCtrl.editPersona);
 router.delete('/:id', personaCtrl.deletePersona);
 //exportacion del modulo de rutas

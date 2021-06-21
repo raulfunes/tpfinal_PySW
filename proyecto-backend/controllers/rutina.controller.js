@@ -1,8 +1,15 @@
 const Rutina = require('../models/rutina')
 const rutinaCtrl = {}
 
-rutinaCtrl.getRutina = async(req, res)=>{
+rutinaCtrl.getRutinas = async(req, res)=>{
     var rutina = await Rutina.find().populate("ejercicios");
+    res.json(rutina);
+}
+
+rutinaCtrl.getRutina = async(req, res)=>{
+    var rutina = await Rutina.find(
+        {asistencia: req.params.asistencia}
+    );
     res.json(rutina);
 }
 

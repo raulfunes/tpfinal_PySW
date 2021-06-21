@@ -4,7 +4,8 @@ const router = express.Router();
 const asistenciaCtrl = require('./../controllers/asistencia.controller');
 // definiendo rutas
 router.post('/', asistenciaCtrl.createAsistencia);
-router.get('/', asistenciaCtrl.getAsistencia);
+router.get('/', asistenciaCtrl.getAsistencias);
+router.get('/:alumno', asistenciaCtrl.getAsistencia);
 router.put('/:id', asistenciaCtrl.editAsistencia);
 router.delete('/:id', asistenciaCtrl.deleteAsistencia);
 //exportacion del modulo de rutas

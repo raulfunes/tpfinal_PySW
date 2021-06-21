@@ -2,7 +2,11 @@ const Ejercicio = require('../models/ejercicio')
 const ejercicioCtrl = {}
 
 ejercicioCtrl.getEjercicio = async(req, res)=>{
-    var ejercicio = await Ejercicio.find();
+    var ejercicio = await Ejercicio.find({
+        area_muscular: req.params.musculo,
+        funcion: req.params.funcion,
+        dificultad: req.params.dificultad
+    });
     res.json(ejercicio);
 }
 

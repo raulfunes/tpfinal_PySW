@@ -10,14 +10,16 @@ const AsistenciaSchema = new Schema({
         required: true
     },
     dias_restantes: {
-        type: String,
+        type: Number,
         required: true
     },
     fecha: {
         type: Date,
         required: true
+    },
+    rutina: {
+        type: String
     }
-    
 });
 //exporto objeto para que pueda ser usado en otros lugares
 module.exports = mongoose.model('Asistencia', AsistenciaSchema);
