@@ -1,0 +1,35 @@
+@font-face {
+    font-family: 'Big Scream';
+    src: url(/assets/font/BebasNeue-Regular.ttf) ;
+    font-weight:500;
+  }
+
+
+
+
+.botones_caja{
+    background-color: black;
+    color: white;
+    border: 4px double white;
+    font-family: 'Big Scream';
+}
+
+.fuente-scream{
+    font-family: 'Big Scream';
+}
+
+.textura-neon{
+    background-image: url("../../../assets/images/RectanguloNeon.png");
+    background-position: center;
+    background-size: 100% 100%;
+}
+.textura-neon-azul{
+    background-image: url("../../../assets/images/RectanguloNeonAzul.png");
+    background-position: center;
+    background-size: 100% 100%;
+}
+.textura-neon-naranja{
+    background-image: url("../../../assets/images/RectanguloNeonNaranja.png");
+    background-position: center;
+    background-size: 100% 100%;
+}

@@ -1,0 +1,54 @@
+<div class="container-fluid vh-100">
+  <mat-sidenav-container class="example-container h-100 row">
+    <mat-sidenav #sidenav [mode]="mode.value" [opened]="open" position="end" class="col-12 col-md-2">
+      <button mat-button (click)="sidenav.toggle()" class="navbar-toggler" type="button"  *ngIf="!open">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+        <ul class="nav nav-pills flex-column mb-auto mt-5">
+          <li class="nav-item">
+            <a  routerLinkActive="active" [routerLink]="['']" class="nav-link">
+              <span class="bi bi-house"></span>
+              Inicio
+            </a>
+          </li>
+          <li>
+            <a  routerLinkActive="active" [routerLink]="['alumno-form/0']" class="nav-link text-white">
+              <span class="bi bi-plus-circle"></span>
+              Registrar Alumno
+            </a>
+          </li>
+          <li>
+            <a  routerLinkActive="active" [routerLink]="['alumno']" class="nav-link text-white">
+              <span class="bi bi-currency-dollar"></span>
+              Alumnos
+            </a>
+          </li>
+          <li>
+            <a class="nav-link text-white">
+              <span class="bi bi-person"></span>
+              Alumnos
+            </a>
+          </li>
+        </ul>
+        <hr>
+        <div class="dropdown">
+          <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+            <strong>{{usu_nombre}}</strong>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+            <li><a class="dropdown-item" href="#">Sign out</a></li>
+          </ul>
+        </div>
+    </mat-sidenav>
+  
+    <mat-sidenav-content class="col-12 col-md-10 position-sticky overflow-hide">
+      <p>
+        <button mat-button (click)="sidenav.toggle()" class="navbar-toggler" type="button" *ngIf="!open">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      <router-outlet ></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
+

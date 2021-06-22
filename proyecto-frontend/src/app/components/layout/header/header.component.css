@@ -1,0 +1,23 @@
+@font-face {
+    font-family: 'Big Scream';
+    src: url(/assets/font/BebasNeue-Regular.ttf) ;
+    font-weight:500;
+  }
+
+.fuente-scream{
+    font-family: 'Big Scream';
+}
+
+.botones-caja{
+    background-color: black;
+    color: white;
+    border: 4px double white;
+    font-family: 'Big Scream';
+}
+
+.textura-metal{
+    background-image: url("../../../../assets/images/textura_metal.jpg");
+    background-color: gray;
+    background-size: cover;
+    background-blend-mode: multiply;
+}

@@ -1,0 +1,111 @@
+<mat-form-field appearance="fill">
+  <mat-label>Musculo</mat-label>
+  <mat-select [formControl]="musculosControl" required>
+    <mat-option>--</mat-option>
+    <mat-option *ngFor="let m of musculos" [value]="m">
+      {{m}}
+    </mat-option>
+  </mat-select>
+  <mat-error *ngIf="musculosControl.hasError('required')">Por favor elija un musculo</mat-error>
+  <mat-hint>{{musculosControl.value?.sound}}</mat-hint>
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+  <mat-label>Funcion</mat-label>
+  <mat-select [formControl]="funcionControl" required>
+    <mat-option>--</mat-option>
+    <mat-option *ngFor="let f of funcion" [value]="f">
+      {{f}}
+    </mat-option>
+  </mat-select>
+  <mat-error *ngIf="funcionControl.hasError('required')">Por favor elija una funcion</mat-error>
+  <mat-hint>{{funcionControl.value?.sound}}</mat-hint>
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+  <mat-label>Dificultad</mat-label>
+  <mat-select [formControl]="dificultadControl" required>
+    <mat-option>--</mat-option>
+    <mat-option *ngFor="let d of dificultad" [value]="d">
+      {{d}}
+    </mat-option>
+  </mat-select>
+  <mat-error *ngIf="dificultadControl.hasError('required')">Por favor elija una dificultad</mat-error>
+  <mat-hint>{{dificultadControl.value?.sound}}</mat-hint>
+</mat-form-field>
+
+<div *ngIf="dificultadControl.valid && funcionControl.valid && musculosControl.valid">
+  <button (click)="filtrarEjercicios()">
+    Buscar
+  </button>
+
+
+
+  <div class="mat-elevation-z8" *ngIf="ready">
+    <table mat-table [dataSource]="dataSource" class="w-100 table-responsive">
+
+      <!-- Nombre -->
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef>Nombre</th>
+        <td mat-cell *matCellDef="let ejercicio"> {{ejercicio.nombre}} </td>
+      </ng-container>
+
+      <!-- Apellido-->
+      <ng-container matColumnDef="repeticiones">
+        <th mat-header-cell *matHeaderCellDef>Repeticiones</th>
+        <td mat-cell *matCellDef="let ejercicio"> {{ejercicio.repeticiones_promedio}} </td>
+      </ng-container>
+
+      <!-- Plan -->
+      <ng-container matColumnDef="series">
+        <th mat-header-cell *matHeaderCellDef>Series</th>
+        <td mat-cell *matCellDef="let ejercicio"> {{ejercicio.series_promedio}} </td>
+      </ng-container>
+
+
+
+      <!-- Detalles-->
+      <div class="row justify-content-center">
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef class="col-1"> Acciones </th>
+          <td mat-cell *matCellDef="let ejercicio">
+            <button mat-icon-button color="#008000" *ngIf="!comprobarSeleccionados(ejercicio)"
+              (click)="agregarSeleccionado(ejercicio)">
+              <span class="bi-plus-circle-fill fs-5 "></span>
+            </button>
+            <button mat-icon-button color="#008000" *ngIf="comprobarSeleccionados(ejercicio)"
+              (click)="quitarSeleccionado(ejercicio)">
+              <span class="bi-x-circle-fill fs-5 "></span>
+            </button>
+          </td>
+        </ng-container>
+      </div>
+
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+  </div>
+
+  <div *ngIf="ejerciciosSeleccionados.length > 0">
+    <mat-form-field class="example-chip-list">
+      <mat-label>Ejercicios Rutina</mat-label>
+      <mat-chip-list #chipList aria-label="Seleccion Ejercicios">
+        <mat-chip *ngFor="let ejercicio of ejerciciosSeleccionados" [selectable]="selectable" [removable]="true"
+          (removed)="quitarSeleccionado(ejercicio)">
+          {{ejercicio.nombre}}
+          <mat-icon matChipRemove><span class="bi-x-circle-fill"></span></mat-icon>
+        </mat-chip>
+      </mat-chip-list>
+    </mat-form-field>
+  </div>
+
+  <div>
+    <button *ngIf="accion == 'new'" (click)="asignarRutina()">
+      Crear Rutina
+    </button>
+    <button *ngIf="accion == 'update'" (click)="modificarRutina()">
+      Modificar Rutina
+    </button>
+  </div>
