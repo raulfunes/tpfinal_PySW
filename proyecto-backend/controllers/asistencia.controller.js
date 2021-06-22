@@ -1,10 +1,25 @@
 const Asistencia = require('../models/asistencia')
 const asistenciaCtrl = {}
 
-asistenciaCtrl.getAsistencia = async(req, res)=>{
-    var asistencias = await Asistencia.find().populate();
+
+asistenciaCtrl.getAsistencias = async(req, res)=>{
+    const asistencias = await Asistencia.find();
     res.json(asistencias);
 }
+
+asistenciaCtrl.getAsistenciaAlumno = async(req, res)=>{
+    const asistencias = await Asistencia.find({
+        alumno: req.params.alumno
+    });
+    res.json(asistencias);
+}
+
+asistenciaCtrl.getAsistencia = async(req, res)=>{
+    const asistencias = await Asistencia.findById(req.params.id);
+    res.json(asistencias);
+}
+
+
 
 asistenciaCtrl.createAsistencia = async(req, res)=>{
     var asistencia = new Asistencia(req.body);

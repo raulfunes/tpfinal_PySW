@@ -2,7 +2,7 @@ const Plan = require('../models/plan')
 const planCtrl = {}
 
 planCtrl.getPlan = async(req, res)=>{
-    var plan = await Rol.find();
+    var plan = await Plan.find();
     res.json(plan);
 }
 
