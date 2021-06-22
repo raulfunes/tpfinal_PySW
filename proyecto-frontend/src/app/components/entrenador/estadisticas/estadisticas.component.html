@@ -1,1 +1,31 @@
-<p>estadisticas works!</p>
+<h2 class="text-center mt-3">Informaci&oacute;n de Alumnos</h2>
+<div class="table-responsive">
+  <table class="table text-light" [mfData]="_alumnos" #mf="mfDataTable" [mfRowsOnPage]="3">
+    <thead>
+      <tr>
+        <th>Apellido y Nombre</th>
+        <th>Plan</th>
+        <th>Fecha Inicio</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let alumno of mf.data">
+        <td>{{ alumno.persona.apellido | uppercase }}, {{ alumno.persona.nombre | uppercase }}</td>
+        <td>{{ alumno.plan }}</td>
+        <td>{{ alumno.fecha_inicio | date:"dd-MM-yyyy"}}</td>
+        <td>
+          Acciones
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="3">
+          <mfBootstrapPaginator [rowsOnPageSet]="[3,10,25]"></mfBootstrapPaginator>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+

@@ -29,6 +29,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatChipsModule} from '@angular/material/chips';
 import { EstadisticasComponent } from './components/entrenador/estadisticas/estadisticas.component';
 import { PagoComponent } from './components/entrenador/pago/pago.component';
+import { NgxDataTableModule } from 'angular-9-datatable';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { PagoComponent } from './components/entrenador/pago/pago.component';
     MatStepperModule,
     MatSelectModule,
     MatCheckboxModule,
-    MatChipsModule
+    MatChipsModule,
+    NgxDataTableModule
   ],
   providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } }],
   bootstrap: [AppComponent]
