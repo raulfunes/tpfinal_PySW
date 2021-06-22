@@ -6,22 +6,10 @@ const {
 } = mongoose;
 
 const RutinaSchema = new Schema({
-    area_muscular: {
-        type: String,
-        required: true
-    },
     ejercicios: [{
         type: Schema.Types.ObjectId,
         ref: Ejercicio,
     }],
-    funcion: {
-        type: String,
-        required: true
-    },
-    dificultad: {
-        type: String,
-        required: true
-    },
     asistencia:{
         type: Schema.Types.ObjectId,
         ref: Asistencia,

@@ -7,6 +7,11 @@ rutinaCtrl.getRutinas = async(req, res)=>{
 }
 
 rutinaCtrl.getRutina = async(req, res)=>{
+    var rutina = await Rutina.findById(req.params.id).populate("ejercicios");
+    res.json(rutina);
+}
+
+rutinaCtrl.getRutinaAsistencia = async(req, res)=>{
     var rutina = await Rutina.find(
         {asistencia: req.params.asistencia}
     );
