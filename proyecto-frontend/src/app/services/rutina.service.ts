@@ -50,4 +50,19 @@ export class RutinaService {
     let body = JSON.stringify(rutina);
     return this.http.post(this.urlbase + "rutina", body ,option);
   }
+
+
+  modificarRutina(rutina: Rutina):Observable<any>{
+    let option={
+      headers: new HttpHeaders({
+        "Content-Type": "application/json"
+      }),
+      params: new HttpParams({
+
+      })
+
+    }
+    let body = JSON.stringify(rutina)
+    return this.http.put(this.urlbase + "rutina/" + rutina._id, body ,option);
+  }
 }

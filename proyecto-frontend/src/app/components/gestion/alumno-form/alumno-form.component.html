@@ -1,4 +1,4 @@
-<mat-vertical-stepper [linear]="true" #stepper>
+<mat-vertical-stepper [linear]="true" #stepper class="mt-3 p-3">
   <mat-step [stepControl]="firstFormGroup">
     <form [formGroup]="firstFormGroup">
       <ng-template matStepLabel>Complete los datos de la persona</ng-template>
@@ -39,13 +39,13 @@
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="col-12 col-md-4 m-3">
-        <mat-label>Choose a date</mat-label>
+        <mat-label>Fecha Nacimiento</mat-label>
         <input matInput formControlName="fecha_nac" [matDatepicker]="picker">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
       <div>
-        <button mat-button matStepperNext>Next</button>
+        <button mat-raised-button color="accent" matStepperNext>Siguiente</button>
       </div>
     </form>
   </mat-step>
@@ -53,32 +53,37 @@
 
   <mat-step [stepControl]="secondFormGroup">
     <form [formGroup]="secondFormGroup">
-      <ng-template matStepLabel>Elije un plan</ng-template>
-      <mat-select formControlName=plan class="border border-3" required>
-        <mat-option *ngFor="let plan of planes" [value]="plan._id">
-          {{plan.nombre}}
-        </mat-option>
-      </mat-select>
-      <mat-form-field appearance="fill" class="col-12 col-md-4 m-3">
-        <mat-label>Choose a date</mat-label>
+      <ng-template matStepLabel>Elija su plan</ng-template>
+
+
+      <mat-form-field appearance="fill" class="mt-3 me-3">
+        <mat-label>Planes</mat-label>
+        <mat-select formControlName=plan  required name="plan">
+          <mat-option *ngFor="let plan of planes" [value]="plan._id">
+            {{plan.nombre}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="col-12 col-md-4">
+        <mat-label>Fecha Inicio</mat-label>
         <input matInput formControlName="fecha_inicio" [matDatepicker]="pickerinicio">
         <mat-datepicker-toggle matSuffix [for]="pickerinicio"></mat-datepicker-toggle>
         <mat-datepicker #pickerinicio></mat-datepicker>
       </mat-form-field>
       <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
+        <button mat-raised-button color="accent" class="me-3" matStepperPrevious>Atras</button>
+        <button mat-raised-button color="accent" matStepperNext>Siguiente</button>
       </div>
     </form>
   </mat-step>
   <mat-step [stepControl]="thirdFormGroup">
-    <ng-template matStepLabel>Done</ng-template>
-    <p>You are now done.</p>
-    <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="agregarAlumno()" *ngIf="accion == 'new'">Agregar Alumno</button>
-      <button mat-button (click)="modificarAlumno()" *ngIf="accion == 'update'">Modificar Alumno</button>
-      <button mat-button (click)="stepper.reset()">Reset</button>
+    <ng-template matStepLabel>Registro completado</ng-template>
+    <div class="mt-3">
+      <button mat-raised-button color="accent" class="me-3" matStepperPrevious>Atras</button>
+      <button mat-raised-button color="primary" class="me-3" (click)="agregarAlumno()" *ngIf="accion == 'new'">Agregar Alumno</button>
+      <button mat-raised-button color="primary" class="me-3" (click)="modificarAlumno()" *ngIf="accion == 'update'">Modificar Alumno</button>
+      <button mat-raised-button color="warn" (click)="stepper.reset()">Limpiar</button>
     </div>
   </mat-step>
 </mat-vertical-stepper>

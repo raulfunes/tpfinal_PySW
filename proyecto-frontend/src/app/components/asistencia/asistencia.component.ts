@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
-import { empty } from 'rxjs';
-import { Alumno } from 'src/app/models/alumno';
 import { Asistencia } from 'src/app/models/asistencia';
 import { AsistenciaService } from 'src/app/services/asistencia.service';
 import { RutinaService } from 'src/app/services/rutina.service';
@@ -30,13 +28,12 @@ export class AsistenciaComponent implements OnInit {
     this.activatedRoute.params.subscribe(
       params=>{
           this.listAsistencia(params.id);
-        }
-    )
+    })
   }
 
 
   listAsistencia(alumno: String){
-    console.log(alumno)
+    console.log(alumno);
     this.asistenciaService.getAsistenciaAlumno(alumno).subscribe(
       (result)=>{
         console.log(result)
@@ -58,16 +55,6 @@ export class AsistenciaComponent implements OnInit {
     this.dataSource.filter = text.trim().toLocaleLowerCase();
   }
 
-
-  redirectToAssistance(id : String){
-    console.log("Asistencia");
-    console.log(id)
-    this.route.navigate(["asistencia/",id]);
-  }
-
-  redirectToUpdate(id: String){
-    this.route.navigate(["alumno-form/",id]);
-  }
 
   marcarAsistencia(){
     Swal.fire({
@@ -117,7 +104,7 @@ export class AsistenciaComponent implements OnInit {
           })
         }
         else{
-          console.log(result);
+          console.log(result); 
         }
       }
     )
@@ -153,4 +140,9 @@ export class AsistenciaComponent implements OnInit {
 
   }
   
+
+  verAsistencia(a: Asistencia): String{
+    let d = new Date(a.fecha);
+    return d.toLocaleDateString();
+  }
 }

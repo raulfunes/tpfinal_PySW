@@ -81,4 +81,10 @@ export class AlumnoComponent implements OnInit {
   redirectToUpdate(id: String){
     this.route.navigate(["alumno-form/",id]);
   }
+
+  
+  verAsistencia(a: Date): String{
+    let d = new Date(a);
+    return d.toLocaleDateString();
+  }
 }

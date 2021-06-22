@@ -8,6 +8,7 @@ import { Rutina } from 'src/app/models/rutina';
 import { AsistenciaService } from 'src/app/services/asistencia.service';
 import { EjercicioService } from 'src/app/services/ejercicio.service';
 import { RutinaService } from 'src/app/services/rutina.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-rutina-form',
@@ -50,7 +51,7 @@ export class RutinaFormComponent implements OnInit {
                 (result)=>{
                   Object.assign(this.ejerciciosSeleccionados, result.ejercicios);
                   console.log(this.ejerciciosSeleccionados)
-                  if (this.ejerciciosSeleccionados.length == 1) {this.accion = "update"} else {this.accion = "new"}; 
+                  if (this.ejerciciosSeleccionados.length > 0) {this.accion = "update"} else {this.accion = "new"}; 
                 }
               )
             }
@@ -60,7 +61,7 @@ export class RutinaFormComponent implements OnInit {
     )
   }
 
-
+  
   filtrarEjercicios() {
     console.log(this.musculosControl.value + this.funcionControl.value + this.dificultadControl.value)
     this.ejercicioService.getEjercicio(this.musculosControl.value + "/" + this.funcionControl.value + "/" + this.dificultadControl.value).subscribe(
@@ -104,20 +105,47 @@ export class RutinaFormComponent implements OnInit {
     this.rutina.asistencia = this.asistencia._id;
     this.rutinaService.postRutina(this.rutina).subscribe(
       (result) => {
-        console.log(result);
         if(result.status == "1"){
-          this.rutinaService.getRutina(this.asistencia._id).subscribe(
+          this.rutinaService.getRutinaAsistencia(this.asistencia._id).subscribe(
             (result)=>{
-              console.log(result)
               this.asistencia.rutina = result[0]._id;
-              console.log(this.asistencia);
               this.asistenciaService.modificarAsistencia(this.asistencia).subscribe(
                 (result)=>{
-                    console.log(result);
+                  if(result.status == "1"){
+                    Swal.fire({
+                      position: 'top-end',
+                      icon: 'success',
+                      title: 'Rutina creada',
+                      showConfirmButton: false,
+                      timer: 2000
+                    })
+                    this.router.navigate(['asistencia/' + this.asistencia.alumno])
+                  }
                 })
             })
           
         }
       })
+  }
+
+  modificarRutina(){
+    this.rutina = new Rutina();
+    this.rutina._id = this.asistencia.rutina;
+    this.rutina.ejercicios = this.ejerciciosSeleccionados;
+    this.rutina.asistencia = this.asistencia._id;
+    this.rutinaService.modificarRutina(this.rutina).subscribe(
+      (result)=>{
+        if(result.status == "1"){
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Rutina Modificada',
+            showConfirmButton: false,
+            timer: 2000
+          })
+          this.router.navigate(['asistencia/' + this.asistencia.alumno])
+        }
+      }
+    )
   }
 }
