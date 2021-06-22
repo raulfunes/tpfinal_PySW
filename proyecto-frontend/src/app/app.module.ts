@@ -27,6 +27,8 @@ import { RutinaComponent } from './components/rutina/rutina.component';
 import { RutinaFormComponent } from './components/gestion/rutina-form/rutina-form.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatChipsModule} from '@angular/material/chips';
+import { EstadisticasComponent } from './components/entrenador/estadisticas/estadisticas.component';
+import { PagoComponent } from './components/entrenador/pago/pago.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,8 @@ import {MatChipsModule} from '@angular/material/chips';
     AsistenciaComponent,
     RutinaComponent,
     RutinaFormComponent,
+    EstadisticasComponent,
+    PagoComponent,
     
   ],
   imports: [
