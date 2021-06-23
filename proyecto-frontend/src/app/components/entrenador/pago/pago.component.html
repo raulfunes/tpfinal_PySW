@@ -1,1 +1,52 @@
-<p>pago works!</p>
+<form class="card" #pagoForm="ngForm" class="was-validated">
+    <div class="card-header text-center h3">Gesti&oacute;n de Pagos</div>
+    <div class="card-body" id="printJS-form">
+        
+      <!-- Alumno -->
+      <div class="row form-group">
+        <label class="col-sm-12 col-md-4">Alumno</label>
+
+        <!-- Carga la lista de la base de datos -->
+        <select name="cmbAlumno" class="form-control col-sm-12 col-md-8" required [(ngModel)]="_pago.alumno" (change)="mostrarPlan(_pago.alumno)">
+          <option value="{{item._id}}" *ngFor="let item of _alumnos"> {{item.persona.dni}} - {{ item.persona.apellido }}, {{ item.persona.nombre }} </option>
+        </select>
+      </div>
+  
+      <!-- Plan -->
+      <div *ngIf="_mostrarPlan" class="row form-group">
+        <br>
+        <div>Plan Seleccionado: {{ _plan.nombre }}</div>
+        <div>D&iacute;as: {{ _plan.dias }}</div>
+        <br>
+      </div>
+      
+      <!-- Monto -->
+      <div class="row form-group">
+        <label class="col-sm-12 col-md-4">Monto - $</label>
+        <input class="form-control col-sm-12 col-md-8" type="text" name="txtMonto" [(ngModel)]="_pago.monto" required pattern="(^[1-9][0-9].[0-9][0-9]|^[1-9][0-9]$|^[1-9][0-9]*.[0-9])" #txtMonto="ngModel" />
+        <div *ngIf="txtMonto.invalid && (txtMonto.dirty || txtMonto.touched)" class="invalid-feedback">
+          <div *ngIf="txtMonto.errors.required">
+            El campo Monto es requerido
+          </div>
+          <div *ngIf="txtMonto.errors.pattern">
+            Solo se admiten precios mayores a ceros y hasta dos decimales
+          </div>
+        </div>
+      </div>
+  
+      <!-- Tipo de Pago -->
+      <div class="row form-group">
+        <label class="col-sm-12 col-md-4">Tipo de Pago</label>
+        <select name="cmbTipo" class="form-control col-sm-12 col-md-8" required [(ngModel)]="_pago.modo_pago">
+          <option value="Contado">Contado</option>
+          <option value="Tarjeta">Tarjeta</option>
+        </select>
+      </div>
+    </div>
+    <div class="card-footer">
+      <!-- Botones -->
+      <div class="form-group text-center">
+        <button type="button" class="btn btn-success" [disabled]="!pagoForm.form.valid" (click)="agregarPago()"><i class="fas fa-save fal"></i>&nbsp;Agregar Pago</button>
+      </div>
+    </div>
+  </form>

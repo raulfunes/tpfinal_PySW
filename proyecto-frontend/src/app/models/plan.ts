@@ -2,6 +2,6 @@ export class Plan {
     _id: String;
     nombre: String;
     descripcion: String;
-    dias: Number;
+    dias: number;
     monto: Number;
 }
