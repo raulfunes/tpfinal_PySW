@@ -9,10 +9,6 @@ const AsistenciaSchema = new Schema({
         ref: Alumno,
         required: true
     },
-    dias_restantes: {
-        type: Number,
-        required: true
-    },
     fecha: {
         type: Date,
         required: true

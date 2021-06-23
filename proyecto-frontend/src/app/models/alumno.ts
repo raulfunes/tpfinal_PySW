@@ -5,6 +5,7 @@ export class Alumno{
     _id : String;
     persona: Persona;
     plan: Plan;
+    dias_restantes: number;
     fecha_inicio: String;
 
     constructor(_id?:string, persona?:Persona, plan?:Plan, fecha_inicio?:String){

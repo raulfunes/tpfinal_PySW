@@ -1,6 +1,6 @@
 
 <button mat-raised-button color="accent" (click)="marcarAsistencia()" class="mt-3 ms-3 me-3">Marcar clase de hoy</button>
-<span>Clases restantes</span>
+<span *ngIf="ready">Clases restantes: {{alumno.dias_restantes}}</span>
 <div class="mat-elevation-z8" *ngIf="ready" class="mt-3">
     <table mat-table [dataSource]="dataSource" class="w-100 table-responsive">
 

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Alumno } from 'src/app/models/alumno';
 import { Asistencia } from 'src/app/models/asistencia';
+import { AlumnoService } from 'src/app/services/alumno.service';
 import { AsistenciaService } from 'src/app/services/asistencia.service';
 import { RutinaService } from 'src/app/services/rutina.service';
 import Swal from 'sweetalert2';
@@ -20,23 +22,33 @@ export class AsistenciaComponent implements OnInit {
   asistencia: Asistencia;
   date: Date = new Date();
   dataSource: MatTableDataSource<Asistencia>;
+  alumno: Alumno;
   constructor( private activatedRoute: ActivatedRoute, private asistenciaService: AsistenciaService, private route: Router,
-    private rutinaService: RutinaService) { }
+    private rutinaService: RutinaService, private alumnoService: AlumnoService) { }
 
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(
       params=>{
+          this.getAlumno(params.id);
           this.listAsistencia(params.id);
     })
   }
 
 
+  getAlumno(alumno: String){
+    this.alumnoService.getAlumno(alumno).subscribe(
+      (result)=>{
+        this.alumno = new Alumno();
+        Object.assign(this.alumno, result)
+        console.log(this.alumno);
+      }
+    )
+  }
+
   listAsistencia(alumno: String){
-    console.log(alumno);
     this.asistenciaService.getAsistenciaAlumno(alumno).subscribe(
       (result)=>{
-        console.log(result)
         this.asistencias = new Array<Asistencia>();
         result.forEach(element => {
           let oAsistencia = new Asistencia();
@@ -57,32 +69,51 @@ export class AsistenciaComponent implements OnInit {
 
 
   marcarAsistencia(){
-    Swal.fire({
-      title: 'Estas seguro?',
-      text: "Se le marcara la asistencia tambien al alumno",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Marcar Asistencia'
-    }).then((result) => {
-      this.asistencia = new Asistencia();
-      this.asistencia.alumno = this.persona_id;
-      this.asistencia.dias_restantes = 2;
-      this.asistencia.fecha = this.date;
-      this.asistencia.rutina = "0";
-      if (result.isConfirmed) {
-        this.asistenciaService.postAsistencia(this.asistencia).subscribe(
-          (result)=>{
-            console.log(result);
-            this.listAsistencia(this.persona_id);
-          }
-        )
-        Swal.fire(
-          'Se marco la asistencia'
-        )
-      }
-    })
+    if(this.alumno.dias_restantes > 0){
+      Swal.fire({
+        title: 'Estas seguro?',
+        text: "Se le marcara la asistencia tambien al alumno",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Marcar Asistencia'
+      }).then((result) => {
+        this.asistencia = new Asistencia();
+        this.asistencia.alumno = this.persona_id;
+        this.asistencia.fecha = this.date;
+        this.asistencia.rutina = "0";
+        if (result.isConfirmed) {
+          this.asistenciaService.postAsistencia(this.asistencia).subscribe(
+            (result)=>{
+              if(result.status == "1"){
+                this.listAsistencia(this.persona_id);
+                this.alumno.dias_restantes = this.alumno.dias_restantes - 1
+                this.alumnoService.modificarAlumno(this.alumno).subscribe(
+                  (result2)=>{
+                    console.log(result2)
+                  }
+                )
+              }else{
+              }
+              
+            }
+          )
+          Swal.fire(
+            'Se marco la asistencia'
+          )
+        }
+      })
+    }
+    else{
+      Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: 'El alumno no dispone de mas clases',
+        showConfirmButton: false,
+        timer: 1500
+      })
+    }
   }
 
   asignarRutina(asistencia: Asistencia){

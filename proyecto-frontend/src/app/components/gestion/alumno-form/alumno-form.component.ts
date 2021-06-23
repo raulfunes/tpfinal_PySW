@@ -66,6 +66,7 @@ export class AlumnoFormComponent implements OnInit {
           this.alumno = new Alumno();
           Object.assign(this.alumno, this.secondFormGroup.value);
           this.alumno.persona = result.id;
+          this.alumno.dias_restantes = 0;
           this.alumnoService.postAlumno(this.alumno).subscribe(
             (resultAlu)=>{
               console.log(resultAlu)

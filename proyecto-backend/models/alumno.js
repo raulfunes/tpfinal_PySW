@@ -16,6 +16,10 @@ const AlumnoSchema = new Schema({
         ref: Plan,
         required: true
     },
+    dias_restantes: {
+        type: Number,
+        required: true
+    },
     fecha_inicio: {
         type: String,
         required: true

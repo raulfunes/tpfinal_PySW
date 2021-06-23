@@ -23,7 +23,7 @@ export class AlumnoService {
     return this.http.get(this.urlbase + "alumno", option);
   }
 
-  getAlumno(_id : string):Observable<any>{
+  getAlumno(_id : String):Observable<any>{
     let option={
       headers: new HttpHeaders({
       }),
