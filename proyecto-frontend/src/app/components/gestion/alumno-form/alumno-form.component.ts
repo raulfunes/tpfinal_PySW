@@ -106,10 +106,10 @@ export class AlumnoFormComponent implements OnInit {
   }
   
   modificarAlumno(){
-    this.persona = new Persona()
     Object.assign(this.persona, this.firstFormGroup.value);
     this.personaService.modificarPersona(this.persona).subscribe(
       (result)=>{
+          console.log(result);
           this.alumno = new Alumno()
           this.alumno._id = this.idAlumnoModificar;
           this.alumnoService.modificarAlumno(this.alumno).subscribe(
