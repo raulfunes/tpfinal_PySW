@@ -12,7 +12,7 @@
     <tbody>
       <tr *ngFor="let alumno of mf.data">
         <td>{{ alumno.persona.apellido | uppercase }}, {{ alumno.persona.nombre | uppercase }}</td>
-        <td>{{ alumno.plan }}</td>
+        <td>{{ alumno.plan.nombre }}</td>
         <td>{{ alumno.fecha_inicio | date:"dd-MM-yyyy"}}</td>
         <td>
           Acciones

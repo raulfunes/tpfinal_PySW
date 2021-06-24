@@ -1,0 +1,26 @@
+  
+  .mat-column-descripcion {
+    width: 40%;
+    padding-right: 30px;
+    padding-left: 10px;
+  }
+  
+  .mat-column-nombre {
+    width: 10%;
+    font-weight: bold;
+  }
+  
+  .mat-column-repeticiones {
+    width: 10%;
+  }
+  .mat-column-series{
+    width: 10%;
+  }
+
+  .mat-row{
+      padding-top: 20px;
+  }
+  
+  .mat-column{
+    padding-top: 20px;
+  }
