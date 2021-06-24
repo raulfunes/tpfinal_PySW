@@ -25,16 +25,16 @@ import { MatSelectModule } from '@angular/material/select';
 import { AsistenciaComponent } from './components/asistencia/asistencia.component';
 import { RutinaComponent } from './components/rutina/rutina.component';
 import { RutinaFormComponent } from './components/gestion/rutina-form/rutina-form.component';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatChipsModule} from '@angular/material/chips';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
 import { EstadisticasComponent } from './components/entrenador/estadisticas/estadisticas.component';
 import { PagoComponent } from './components/entrenador/pago/pago.component';
 import { NgxDataTableModule } from 'angular-9-datatable';
 import { PlanComponent } from './components/plan/plan.component';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { AsistenciaAlumnoComponent } from './components/asistencia-alumno/asistencia-alumno.component';
 import { RutinaAlumnoComponent } from './components/rutina-alumno/rutina-alumno.component';
-
+import { MatDialogModule } from '@angular/material/dialog';
 @NgModule({
   declarations: [
     AppComponent,
@@ -74,8 +74,10 @@ import { RutinaAlumnoComponent } from './components/rutina-alumno/rutina-alumno.
     MatCheckboxModule,
     MatChipsModule,
     NgxDataTableModule,
-    MatCardModule
+    MatCardModule,
+    MatDialogModule
   ],
+
   providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } }],
   bootstrap: [AppComponent]
 })

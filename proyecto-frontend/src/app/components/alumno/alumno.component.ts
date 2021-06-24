@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Alumno } from 'src/app/models/alumno';
@@ -10,17 +11,25 @@ import Swal from 'sweetalert2';
   templateUrl: './alumno.component.html',
   styleUrls: ['./alumno.component.css']
 })
-export class AlumnoComponent implements OnInit {
+export class AlumnoComponent implements OnInit, AfterViewInit{
   displayedColumns: string[] = ['nombre','apellido','plan','fecha_inicio', 'detalles', 'modificar', 'eliminar'];
   alumnos:Array<Alumno>;
   ready:boolean = false;
   filtro: string;
   dataSource: MatTableDataSource<Alumno>;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   constructor(private alumnoService:AlumnoService, private route:Router) { 
     this.listAlumnos();
   }
 
+  
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+  }
+
   ngOnInit(): void {
+    
   }
 
 

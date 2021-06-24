@@ -1,14 +1,14 @@
-<form class="card" #pagoForm="ngForm" class="was-validated">
+<form class="card" #pagoForm="ngForm" class="was-validated" *ngIf="_ready">
     <div class="card-header text-center h3">Gesti&oacute;n de Pagos</div>
     <div class="card-body" id="printJS-form">
         
       <!-- Alumno -->
       <div class="row form-group">
-        <label class="col-sm-12 col-md-4">Alumno</label>
+        <label class="col-sm-12 col-md-">Alumno</label>
 
         <!-- Carga la lista de la base de datos -->
         <select name="cmbAlumno" class="form-control col-sm-12 col-md-8" required [(ngModel)]="_pago.alumno" (change)="mostrarPlan(_pago.alumno)">
-          <option value="{{item._id}}" *ngFor="let item of _alumnos"> {{item.persona.dni}} - {{ item.persona.apellido }}, {{ item.persona.nombre }} </option>
+          <option  *ngFor="let item of _alumnos" value={{item._id}}> {{item.persona.dni}} - {{ item.persona.apellido }}, {{ item.persona.nombre }} </option>
         </select>
       </div>
   

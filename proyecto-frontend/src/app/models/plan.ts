@@ -3,5 +3,5 @@ export class Plan {
     nombre: String;
     descripcion: String;
     dias: number;
-    monto: Number;
+    monto: number;
 }

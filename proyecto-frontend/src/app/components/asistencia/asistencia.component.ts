@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Alumno } from 'src/app/models/alumno';
@@ -13,7 +14,7 @@ import Swal from 'sweetalert2';
   templateUrl: './asistencia.component.html',
   styleUrls: ['./asistencia.component.css']
 })
-export class AsistenciaComponent implements OnInit {
+export class AsistenciaComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['fecha', 'rutina'];
   asistencias:Array<Asistencia>;
   ready:boolean = false;
@@ -23,6 +24,10 @@ export class AsistenciaComponent implements OnInit {
   date: Date = new Date();
   dataSource: MatTableDataSource<Asistencia>;
   alumno: Alumno;
+
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  
   constructor( private activatedRoute: ActivatedRoute, private asistenciaService: AsistenciaService, private route: Router,
     private rutinaService: RutinaService, private alumnoService: AlumnoService) { }
 
@@ -35,6 +40,9 @@ export class AsistenciaComponent implements OnInit {
     })
   }
 
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+  }
 
   getAlumno(alumno: String){
     this.alumnoService.getAlumno(alumno).subscribe(

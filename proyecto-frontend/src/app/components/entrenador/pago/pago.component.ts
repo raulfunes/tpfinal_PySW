@@ -16,7 +16,11 @@ export class PagoComponent implements OnInit {
   _alumnos: Array<Alumno>;
   _mostrarPlan: boolean = false;
   _plan: Plan;
-  constructor(private _pagoService: PagoService, private _alumnoService: AlumnoService) { }
+  _ready: boolean = false;
+  constructor(private _pagoService: PagoService, private _alumnoService: AlumnoService) {
+    this.obtenerAlumno();
+    this._pago = new Pago();
+   }
 
   ngOnInit(): void {
   }
@@ -25,6 +29,7 @@ export class PagoComponent implements OnInit {
   obtenerAlumno() {
     this._alumnoService.getAlumnos().subscribe(
       (result) => {
+        console.log(result);
         this._alumnos =new Array<Alumno>();
         result.forEach(element => {
           let oAlumno = new Alumno();
@@ -32,7 +37,12 @@ export class PagoComponent implements OnInit {
           if (oAlumno.dias_restantes == 0) {
             this._alumnos.push(oAlumno);
           }
-        });
+        }
+        );
+        if (this._alumnos.length > 0){
+          this._ready = true;
+        }
+
       }
     )
   }

@@ -31,24 +31,30 @@ const routes: Routes = [
   {
     path: 'asistencia/:id',
     component: AsistenciaComponent
-  }, 
+  },
   {
     path: 'asistencia-a/:id',
     component: AsistenciaAlumnoComponent
-  }, 
+  },
   {
     path: 'rutina-a/:asistencia',
     component: RutinaAlumnoComponent
-  }, 
-   {
+  },
+  {
     path: 'estadistica',
-   component:
-   EstadisticasComponent},
-   {
+    component:
+      EstadisticasComponent
+  },
+  {
     path: 'plan',
-   component: PlanComponent},
-   { path: 'pago', component: PagoComponent },
-   { path: '**', pathMatch:'full', redirectTo: ''}
+    component: PlanComponent
+  },
+
+  {
+    path: 'pago',
+    component: PagoComponent
+  },
+  { path: '**', pathMatch: 'full', redirectTo: '' }
 ];
 
 @NgModule({
@@ -56,6 +62,6 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule {
-  
 
- }
+
+}
