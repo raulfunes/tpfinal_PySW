@@ -4,6 +4,7 @@ import { Pago } from 'src/app/models/pago';
 import { Plan } from 'src/app/models/plan';
 import { AlumnoService } from 'src/app/services/alumno.service';
 import { PagoService } from 'src/app/services/pago.service';
+import * as printJS from 'print-js';
 
 @Component({
   selector: 'app-pago',
@@ -48,14 +49,14 @@ export class PagoComponent implements OnInit {
   }
 
   /* Agrega un pago */
-  agregarPago() {
+  agregarPago(contentPrint) {
     this._pago.fecha_pago = new Date();
     this._pago.plan = this._plan;
     this.asignarAlumno(this._pago.alumno);
     
     this._pagoService.addPago(this._pago).subscribe(
       (result) => {
-        this.agregarDiasRestantes();
+        this.agregarDiasRestantes(contentPrint);
       },
       (error) => {
         console.log(error);
@@ -64,11 +65,13 @@ export class PagoComponent implements OnInit {
   }
 
   /* Modifica los días restantes del alumno */
-  agregarDiasRestantes() {
+  agregarDiasRestantes(contentPrint) {
     this._alumno.dias_restantes = this._pago.plan.dias;
     console.log(this._alumno);
     this._alumnoService.modificarAlumno(this._alumno).subscribe(
       (result) => {
+        this.imprimirComprobantePago(contentPrint);
+        this.obtenerAlumno();
         this.limpiarCampos();
       },
       (error) => {
@@ -96,6 +99,15 @@ export class PagoComponent implements OnInit {
         this._mostrarPlan = true;
       }
     }
+  }
+
+  /* Imprimir comprobante */
+  imprimirComprobantePago(contentPrint) {
+    printJS({
+      printable: contentPrint, 
+      type: 'html',
+      header: '<h3 class="text-center">Comprobante de Pago</h3>'
+    });
   }
 
   limpiarCampos() {
