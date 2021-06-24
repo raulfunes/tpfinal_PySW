@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Alumno } from 'src/app/models/alumno';
@@ -11,22 +12,20 @@ import Swal from 'sweetalert2';
   templateUrl: './alumno.component.html',
   styleUrls: ['./alumno.component.css']
 })
-export class AlumnoComponent implements OnInit, AfterViewInit{
+export class AlumnoComponent implements OnInit{
   displayedColumns: string[] = ['nombre','apellido','plan','fecha_inicio', 'detalles', 'modificar', 'eliminar'];
   alumnos:Array<Alumno>;
-  ready:boolean = false;
+  ready:boolean = true;
   filtro: string;
   dataSource: MatTableDataSource<Alumno>;
 
+  @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+
   constructor(private alumnoService:AlumnoService, private route:Router) { 
     this.listAlumnos();
   }
 
-  
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-  }
 
   ngOnInit(): void {
     
@@ -43,14 +42,15 @@ export class AlumnoComponent implements OnInit, AfterViewInit{
           this.alumnos.push(oAlumno);
         });
         this.dataSource = new MatTableDataSource<Alumno>(this.alumnos);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
         this.dataSource.filterPredicate = function(data: any, filterValue: string) {
           let case_one = data.persona.nombre.trim().toLocaleLowerCase().indexOf(filterValue.trim().toLocaleLowerCase()) >= 0  ||
           data.persona.apellido.trim().toLocaleLowerCase().indexOf(filterValue.trim().toLocaleLowerCase()) >= 0;
           return case_one
         };
+
         this.ready = true;
-        console.log(this.alumnos);
-        console.log(this.dataSource);
       }
     )
   }

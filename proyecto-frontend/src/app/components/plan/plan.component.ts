@@ -1,7 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Plan } from 'src/app/models/plan';
 import { PlanService } from 'src/app/services/plan.service';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 
 @Component({
@@ -33,33 +33,4 @@ export class PlanComponent implements OnInit {
       }
     )
   }
-
-  openDialog(): void {
-    const dialogRef = this.dialog.open(DialogPlan, {
-      width: '100%',
-      height: '50%',
-      data: {data: this.plan}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log(this.plan.nombre);
-    });
-  }
-}
-
-@Component({
-  selector: 'app-plan-dialog',
-  templateUrl: './plan.component-dialog.html'
-})
-export class DialogPlan {
-
-  constructor(
-    public dialogRef: MatDialogRef<DialogPlan>,
-    @Inject(MAT_DIALOG_DATA) public data: Plan) {}
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
 }

@@ -35,6 +35,9 @@ import { MatCardModule } from '@angular/material/card';
 import { AsistenciaAlumnoComponent } from './components/asistencia-alumno/asistencia-alumno.component';
 import { RutinaAlumnoComponent } from './components/rutina-alumno/rutina-alumno.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { PlanFormComponent } from './components/gestion/plan-form/plan-form.component';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,7 +55,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     PlanComponent,
     AsistenciaAlumnoComponent,
     RutinaAlumnoComponent,
-    
+    PlanFormComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -75,8 +78,15 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatChipsModule,
     NgxDataTableModule,
     MatCardModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSortModule,
+    MatPaginatorModule
   ],
+  exports:[
+    MatSortModule,
+    MatPaginatorModule
+  ]
+  ,
 
   providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } }],
   bootstrap: [AppComponent]

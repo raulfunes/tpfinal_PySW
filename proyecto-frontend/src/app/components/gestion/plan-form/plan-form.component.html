@@ -1,0 +1,36 @@
+
+<form action="" [formGroup] = "formPlan" class="row mt-3 p-5">
+<mat-form-field appearance="fill" class="col-12 col-md-4">
+    <mat-label>Nombre: </mat-label>
+    <input matInput formControlName="nombre" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="col-12 col-md-9 mt-3">
+    <mat-label>Descripcion: </mat-label>
+    <textarea matInput  formControlName="descripcion" required  
+    cdkTextareaAutosize
+    #autosize="cdkTextareaAutosize"
+    cdkAutosizeMinRows="1"
+    cdkAutosizeMaxRows="5"></textarea>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="col-12 col-md-4 mt-3">
+    <mat-label>Dias: </mat-label>
+    <input matInput type="number" formControlName="dias" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="col-12 col-md-4 mt-3">
+    <mat-label>Monto: </mat-label>
+    <input matInput type="number" formControlName="monto" required>
+  </mat-form-field>
+
+  <div class="row justify-content-evenly p-5">
+    <button mat-raised-button color="primary" class="col-12 col-md-3" (click)="agregarPlan()">
+        Agregar
+      </button>
+      <button mat-raised-button class="col-12 col-md-3">
+        Modificar
+      </button>
+  </div>
+
+</form>

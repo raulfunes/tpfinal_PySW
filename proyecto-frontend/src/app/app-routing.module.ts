@@ -6,6 +6,7 @@ import { AsistenciaComponent } from './components/asistencia/asistencia.componen
 import { EstadisticasComponent } from './components/entrenador/estadisticas/estadisticas.component';
 import { PagoComponent } from './components/entrenador/pago/pago.component';
 import { AlumnoFormComponent } from './components/gestion/alumno-form/alumno-form.component';
+import { PlanFormComponent } from './components/gestion/plan-form/plan-form.component';
 import { RutinaFormComponent } from './components/gestion/rutina-form/rutina-form.component';
 import { HomeComponent } from './components/home/home.component';
 import { PlanComponent } from './components/plan/plan.component';
@@ -48,6 +49,11 @@ const routes: Routes = [
   {
     path: 'plan',
     component: PlanComponent
+  },
+  
+  {
+    path: 'plan-form',
+    component: PlanFormComponent
   },
 
   {

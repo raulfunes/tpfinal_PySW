@@ -1,7 +1,9 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
+import { timeInterval } from 'rxjs/operators';
 import { Alumno } from 'src/app/models/alumno';
 import { Asistencia } from 'src/app/models/asistencia';
 import { AlumnoService } from 'src/app/services/alumno.service';
@@ -9,12 +11,13 @@ import { AsistenciaService } from 'src/app/services/asistencia.service';
 import { RutinaService } from 'src/app/services/rutina.service';
 import Swal from 'sweetalert2';
 
+
 @Component({
   selector: 'app-asistencia',
   templateUrl: './asistencia.component.html',
   styleUrls: ['./asistencia.component.css']
 })
-export class AsistenciaComponent implements OnInit, AfterViewInit {
+export class AsistenciaComponent implements OnInit{
   displayedColumns: string[] = ['fecha', 'rutina'];
   asistencias:Array<Asistencia>;
   ready:boolean = false;
@@ -25,11 +28,12 @@ export class AsistenciaComponent implements OnInit, AfterViewInit {
   dataSource: MatTableDataSource<Asistencia>;
   alumno: Alumno;
 
-
+  @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   
   constructor( private activatedRoute: ActivatedRoute, private asistenciaService: AsistenciaService, private route: Router,
     private rutinaService: RutinaService, private alumnoService: AlumnoService) { }
+  
 
 
   ngOnInit(): void {
@@ -37,12 +41,10 @@ export class AsistenciaComponent implements OnInit, AfterViewInit {
       params=>{
           this.getAlumno(params.id);
           this.listAsistencia(params.id);
-    })
+    }) 
   }
 
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-  }
+
 
   getAlumno(alumno: String){
     this.alumnoService.getAlumno(alumno).subscribe(
@@ -50,6 +52,7 @@ export class AsistenciaComponent implements OnInit, AfterViewInit {
         this.alumno = new Alumno();
         Object.assign(this.alumno, result)
         console.log(this.alumno);
+        this.ready = true
       }
     )
   }
@@ -65,7 +68,9 @@ export class AsistenciaComponent implements OnInit, AfterViewInit {
         });
         this.persona_id = alumno;
         this.dataSource = new MatTableDataSource<Asistencia>(this.asistencias);
-        this.ready = true;
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+        this.ready = true
       }
     )
   }
