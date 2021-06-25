@@ -5,7 +5,7 @@ const personaCtrl = require('../controllers/persona.controller');
 const authCtrl = require('./../controllers/auth.controller')
 // definiendo rutas
 router.post('/', personaCtrl.createPersona);
-router.get('/',authCtrl.verifyToken, personaCtrl.getPersonas);
+router.get('/',personaCtrl.getPersonas);
 router.get('/:id',authCtrl.verifyToken, personaCtrl.getPersona);
 router.put('/:id',[authCtrl.verifyToken, authCtrl.isEntrenador], personaCtrl.editPersona);
 router.delete('/:id',[authCtrl.verifyToken, authCtrl.isEntrenador], personaCtrl.deletePersona);
