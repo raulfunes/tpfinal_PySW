@@ -4,11 +4,11 @@ const router = express.Router();
 const rutinaCtrl = require('./../controllers/rutina.controller');
 const authCtrl = require('./../controllers/auth.controller')
 // definiendo rutas
-router.post('/' ,authCtrl.verifyToken , rutinaCtrl.createRutina);
+router.post('/' ,[authCtrl.verifyToken, authCtrl.isEntrenador] , rutinaCtrl.createRutina);
 router.get('/' ,authCtrl.verifyToken , rutinaCtrl.getRutinas);
 router.get('/:id',authCtrl.verifyToken , rutinaCtrl.getRutina);
 router.get('/asistencia/:asistencia' ,authCtrl.verifyToken , rutinaCtrl.getRutinaAsistencia);
-router.put('/:id' ,authCtrl.verifyToken , rutinaCtrl.editRutina);
-router.delete('/:id',authCtrl.verifyToken , rutinaCtrl.deleteRutina);
+router.put('/:id' ,[authCtrl.verifyToken, authCtrl.isEntrenador] , rutinaCtrl.editRutina);
+router.delete('/:id',[authCtrl.verifyToken, authCtrl.isEntrenador] , rutinaCtrl.deleteRutina);
 //exportacion del modulo de rutas
 module.exports = router;

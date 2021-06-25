@@ -48,7 +48,7 @@ usuarioCtrl.loginUsuario = async (req, res) => {
                 msg: "not found"
             })
         } else {
-            const unToken = jwt.sign({id: user._id}, "secretkey");
+            const unToken = jwt.sign({id: user._id, rol: user.rol}, "secretkey");
             res.json({
                 status: 1,
                 message: "success",

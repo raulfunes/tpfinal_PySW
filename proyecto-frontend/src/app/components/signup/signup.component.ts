@@ -47,7 +47,7 @@ export class SignupComponent implements OnInit {
 
     this.activatedRoute.params.subscribe(
       params=>{
-        if (params.id == "0"){
+        if (params.persona == "0"){
           this.accion = "Entrenador";
         }else{
           this.accion = "Alumno";

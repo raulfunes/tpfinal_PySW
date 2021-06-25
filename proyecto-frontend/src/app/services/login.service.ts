@@ -19,7 +19,6 @@ export class LoginService {
       })
     }
     let body = JSON.stringify({ username: username, password: password });
-    console.log(body);
     return this._http.post(this.hostBase + 'login', body, httpOption);
   }
   public logout() {

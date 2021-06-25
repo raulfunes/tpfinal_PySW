@@ -24,6 +24,12 @@
             </a>
           </li>
           <li *ngIf="rol.descripcion == 'Entrenador'">
+            <a  routerLinkActive="active" [routerLink]="['pago']" class="nav-link text-white">
+              <span class="bi bi-currency-dollar"></span>
+              Pagos
+            </a>
+          </li>
+          <li *ngIf="rol.descripcion == 'Entrenador'">
             <a  routerLinkActive="active" [routerLink]="['estadistica']" class="nav-link text-white">
               <span class="bi bi-graph-up"></span>
               Estadisticas
@@ -44,6 +50,7 @@
           </a>
           <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
             <li ><a class="dropdown-item" [routerLink]="['']" (click)="logout()">Cerrar Sesion</a></li>
+            <li ><a class="dropdown-item" *ngIf="rol.descripcion == 'Entrenador'" [routerLink]="['signup/0']">Registrar Nuevo Entrenador</a></li>
           </ul>
         </div>
         <div *ngIf="!logged">

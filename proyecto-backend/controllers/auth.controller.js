@@ -1,5 +1,6 @@
 //importamos el manejador de token
 const jwt = require('jsonwebtoken');
+const Rol = require('./../models/rol')
 const authCtrl = {}
 authCtrl.verifyToken = async (req, res, next) => {
     //las llamadas a la API debieran tener un header authorization
@@ -31,6 +32,18 @@ authCtrl.verifyToken = async (req, res, next) => {
                 'msg': 'Unauthorized request.'
             });
         }
+    }
+}
+
+authCtrl.isEntrenador = async(req, res, next) =>{
+    const rol = await Rol.findById(req.rol);
+    if (rol.descripcion == "Entrenador"){
+        next()
+        return;
+    } else{
+        return res.json({
+            'msg' : "No eres entrenador"
+        })
     }
 }
 //exportamos el manejador d

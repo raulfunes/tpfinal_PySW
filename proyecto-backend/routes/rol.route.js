@@ -4,10 +4,10 @@ const router = express.Router();
 const rolCtrl = require('./../controllers/rol.controller');
 const authCtrl = require('./../controllers/auth.controller')
 // definiendo rutas
-router.post('/' ,authCtrl.verifyToken , rolCtrl.createRol);
+router.post('/' ,[authCtrl.verifyToken, authCtrl.isEntrenador] , rolCtrl.createRol);
 router.get('/', rolCtrl.getRoles);
 router.get('/:id', rolCtrl.getRol);
-router.put('/:id',authCtrl.verifyToken , rolCtrl.editRol);
-router.delete('/:id',authCtrl.verifyToken , rolCtrl.deleteRol);
+router.put('/:id',[authCtrl.verifyToken, authCtrl.isEntrenador] , rolCtrl.editRol);
+router.delete('/:id',[authCtrl.verifyToken, authCtrl.isEntrenador] , rolCtrl.deleteRol);
 //exportacion del modulo de rutas
 module.exports = router;
