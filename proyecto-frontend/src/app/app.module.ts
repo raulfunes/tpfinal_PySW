@@ -45,6 +45,8 @@ import { MatIconModule} from '@angular/material/icon';
 import { PosteoComponent } from './components/posteo/posteo.component';
 import { PosteoFormComponent } from './components/gestion/posteo-form/posteo-form.component';
 import { TokenInterceptorService } from './services/token-interceptor.service';
+import { FacebookModule } from 'ngx-fb';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -92,7 +94,8 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
     MatDialogModule,
     MatSortModule,
     MatPaginatorModule,
-    MatIconModule
+    MatIconModule,
+    FacebookModule
   ],
   exports:[
     MatSortModule,
