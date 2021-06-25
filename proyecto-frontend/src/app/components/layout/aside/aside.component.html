@@ -1,4 +1,4 @@
-<div class="container-fluid vh-100">
+<div class="container-fluid vh-100" *ngIf="ready">
   <mat-sidenav-container class="example-container h-100 row">
     <mat-sidenav #sidenav [mode]="mode.value" [opened]="open" position="end" class="col-12 col-md-2">
       <button mat-button (click)="sidenav.toggle()" class="navbar-toggler" type="button"  *ngIf="!open">
@@ -11,26 +11,26 @@
               Inicio
             </a>
           </li>
-          <li>
+          <li *ngIf="rol.descripcion == 'Entrenador'">
             <a  routerLinkActive="active" [routerLink]="['alumno-form/0']" class="nav-link text-white">
               <span class="bi bi-plus-circle"></span>
               Registrar Alumno
             </a>
           </li>
-          <li>
+          <li *ngIf="rol.descripcion == 'Entrenador'">
             <a  routerLinkActive="active" [routerLink]="['alumno']" class="nav-link text-white">
               <span class="bi bi-person"></span>
               Alumnos
             </a>
           </li>
-          <li>
+          <li *ngIf="rol.descripcion == 'Entrenador'">
             <a  routerLinkActive="active" [routerLink]="['estadistica']" class="nav-link text-white">
               <span class="bi bi-graph-up"></span>
               Estadisticas
             </a>
           </li>
-          <li>
-            <a  routerLinkActive="active" class="nav-link text-white">
+          <li *ngIf="rol.descripcion == 'Alumno'">
+            <a  routerLinkActive="active" (click)="asistenciaAlumno()"  class="nav-link text-white">
               <span class="bi bi-check"></span>
               Asistencia
             </a>
@@ -39,7 +39,7 @@
         <hr>
         <div class="dropdown" *ngIf="logged">
           <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+            <img src="../../../../assets/images/user_icon_001.jpg" alt="" width="32" height="32" class="rounded-circle me-2">
             <strong>{{persona.nombre}} {{persona.apellido}}</strong>
           </a>
           <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">

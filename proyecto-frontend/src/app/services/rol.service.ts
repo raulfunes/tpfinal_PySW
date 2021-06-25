@@ -12,7 +12,7 @@ export class RolService {
 
   constructor(private http:HttpClient) { }
 
-  getRol():Observable<any>{
+  getRoles():Observable<any>{
     let option={
       headers: new HttpHeaders({
       }),
@@ -21,6 +21,16 @@ export class RolService {
 
     }
     return this.http.get(this.urlbase + "rol", option);
+  }
+  getRol(id: string):Observable<any>{
+    let option={
+      headers: new HttpHeaders({
+      }),
+      params: new HttpParams({
+      })
+
+    }
+    return this.http.get(this.urlbase + "rol/" + id, option);
   }
 
   postRol(rol: Rol):Observable<any>{

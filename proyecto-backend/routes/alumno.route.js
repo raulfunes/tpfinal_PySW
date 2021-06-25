@@ -6,6 +6,7 @@ const alumnoCtrl = require('./../controllers/alumno.controller');
 router.post('/', alumnoCtrl.createAlumno);
 router.get('/', alumnoCtrl.getAlumnos);
 router.get('/:id', alumnoCtrl.getAlumno);
+router.get('/persona/:persona', alumnoCtrl.getAlumnoPersona);
 router.put('/:id', alumnoCtrl.editAlumno);
 router.delete('/:id', alumnoCtrl.deleteAlumno);
 

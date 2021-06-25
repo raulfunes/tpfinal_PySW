@@ -60,7 +60,7 @@ export class SignupComponent implements OnInit {
 
 
   listRoles(){
-    this.rolService.getRol().subscribe(
+    this.rolService.getRoles().subscribe(
       (result)=>{
         console.log(result)
         this.roles = new Array<Rol>();

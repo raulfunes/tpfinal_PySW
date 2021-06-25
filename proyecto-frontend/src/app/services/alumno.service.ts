@@ -33,6 +33,17 @@ export class AlumnoService {
     }
     return this.http.get(this.urlbase + "alumno/" + _id, option);
   }
+  
+  getAlumnoPersona(_id : String):Observable<any>{
+    let option={
+      headers: new HttpHeaders({
+      }),
+      params: new HttpParams({
+      })
+
+    }
+    return this.http.get(this.urlbase + "alumno/persona/" + _id, option);
+  }
 
 
   postAlumno(alumno: Alumno):Observable<any>{

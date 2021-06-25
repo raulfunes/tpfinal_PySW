@@ -68,4 +68,8 @@ export class AsistenciaAlumnoComponent implements OnInit {
     return d.toLocaleDateString();
   }
 
+  verRutina(a: Asistencia){
+    this.route.navigate(['rutina-a/', a._id])
+  }
+
 }

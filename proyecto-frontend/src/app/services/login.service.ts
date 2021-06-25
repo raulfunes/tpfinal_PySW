@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { RolService } from './rol.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ import { Observable } from 'rxjs';
 export class LoginService {
 
   hostBase: string;
-  constructor(private _http: HttpClient) {
+  constructor(private _http: HttpClient, private rolService: RolService) {
     this.hostBase = "http://localhost:3000/api/usuario/";
   }
   public login(username: string, password: string): Observable<any> {
@@ -51,4 +52,10 @@ export class LoginService {
     var persona = sessionStorage.getItem("perfil");
     return persona;
   }
+
+  public rolLogged(){
+    var rol = sessionStorage.getItem("rol");
+    return rol;
+  }
+  
 }

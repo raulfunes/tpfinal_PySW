@@ -1,11 +1,15 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import { Persona } from 'src/app/models/persona';
+import { Rol } from 'src/app/models/rol';
+import { AlumnoService } from 'src/app/services/alumno.service';
 import { LoginService } from 'src/app/services/login.service';
 import { PersonaService } from 'src/app/services/persona.service';
+import { RolService } from 'src/app/services/rol.service';
 import Swal from 'sweetalert2';
 import { LoginComponent } from '../../login/login.component';
 
@@ -16,11 +20,13 @@ import { LoginComponent } from '../../login/login.component';
 })
 export class AsideComponent implements OnInit, OnDestroy {
   open = true;
+  ready: boolean = false;
   mode = new FormControl('side');
   destroyed = new Subject<void>();
   currentScreenSize: string;
   public logged: boolean;
   persona: Persona;
+  rol: Rol;
   // Create a map to display breakpoint names for demonstration purposes.
   displayNameMap = new Map([
     [Breakpoints.XSmall, 'XSmall'],
@@ -30,7 +36,7 @@ export class AsideComponent implements OnInit, OnDestroy {
     [Breakpoints.XLarge, 'XLarge'],
   ]);
 
-  constructor(breakpointObserver: BreakpointObserver, private userService: LoginService, private personaService: PersonaService) {
+  constructor(breakpointObserver: BreakpointObserver,private route:Router, private userService: LoginService, private personaService: PersonaService, private rolService: RolService, private alumnoService: AlumnoService) {
     this.login();
     breakpointObserver.observe([
       Breakpoints.XSmall,
@@ -46,6 +52,10 @@ export class AsideComponent implements OnInit, OnDestroy {
           }
         }
     });
+    this.rol = new Rol();
+    this.rol.descripcion = "None"
+    this.persona = new Persona();
+    this.persona.nombre = "None"
   }
 
   small_device(){
@@ -68,13 +78,21 @@ export class AsideComponent implements OnInit, OnDestroy {
       (result)=>{
         this.persona = new Persona()
         Object.assign(this.persona, result);
+        this.ready = true;
       }
     )
   }
 
 
-  public static log(): void{
-    
+
+  getRolLogged(){
+    this.rolService.getRol(this.userService.rolLogged()).subscribe(
+      (result)=>{
+        this.rol = new Rol();
+        Object.assign(this.rol, result);
+        this.ready = true;
+      }
+    )
   }
 
 
@@ -82,7 +100,15 @@ export class AsideComponent implements OnInit, OnDestroy {
     this.logged = this.userService.userLoggedIn();
     if(this.logged == true){
       this.getPersonaLogged();
+      this.getRolLogged();
+    }else{
+      this.rol = new Rol();
+      this.rol.descripcion = "None"
+      this.persona = new Persona();
+      this.persona.nombre = "None"
+      this.ready = true
     }
+
   }
 
   logout(){
@@ -95,6 +121,17 @@ export class AsideComponent implements OnInit, OnDestroy {
     })
     this.userService.logout();
     this.logged = false;
-    this.persona = new Persona();
+
+    this.login();
+  }
+
+
+  asistenciaAlumno(){
+    this.alumnoService.getAlumnoPersona(this.persona._id).subscribe(
+      (result)=>{
+        console.log(result);
+        this.route.navigate(["asistencia-a/", result[0]._id])
+      }
+    )
   }
 }

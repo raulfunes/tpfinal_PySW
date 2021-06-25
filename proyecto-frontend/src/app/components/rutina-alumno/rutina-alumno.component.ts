@@ -27,7 +27,6 @@ export class RutinaAlumnoComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(
       params=>{
-        console.log(23)
         this.asistenciaService.getAsistencia(params.asistencia).subscribe(
           (result)=>{
             console.log(result)

@@ -1,8 +1,13 @@
 const Rol = require('../models/rol')
 const rolCtrl = {}
 
-rolCtrl.getRol = async(req, res)=>{
+rolCtrl.getRoles = async(req, res)=>{
     var rol = await Rol.find();
+    res.json(rol);
+}
+
+rolCtrl.getRol = async(req, res)=>{
+    var rol = await Rol.findById(req.params.id);
     res.json(rol);
 }
 

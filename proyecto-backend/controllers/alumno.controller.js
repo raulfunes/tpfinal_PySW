@@ -11,6 +11,12 @@ alumnoCtrl.getAlumno = async(req, res)=>{
     res.json(alumnos);
 }
 
+alumnoCtrl.getAlumnoPersona = async(req, res)=>{
+    var alumnos = await Alumno.find(
+        {persona: req.params.persona});
+    res.json(alumnos);
+}
+
 alumnoCtrl.createAlumno = async(req, res)=>{
     var alumno = new Alumno(req.body);
     try{
