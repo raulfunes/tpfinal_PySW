@@ -25,6 +25,7 @@
     "bootstrap": "^5.0.0-beta3",
     "bootstrap-icons": "^1.5.0",
     "ng-sidebar": "^9.4.2",
+    "print-js": "^1.6.0",
     "rxjs": "~6.6.0",
     "sweetalert2": "^11.0.17",
     "tslib": "^2.0.0",
