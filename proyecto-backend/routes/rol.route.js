@@ -4,7 +4,7 @@ const router = express.Router();
 const rolCtrl = require('./../controllers/rol.controller');
 const authCtrl = require('./../controllers/auth.controller')
 // definiendo rutas
-router.post('/' ,[authCtrl.verifyToken, authCtrl.isEntrenador] , rolCtrl.createRol);
+router.post('/', rolCtrl.createRol);
 router.get('/', rolCtrl.getRoles);
 router.get('/:id', rolCtrl.getRol);
 router.put('/:id',[authCtrl.verifyToken, authCtrl.isEntrenador] , rolCtrl.editRol);
