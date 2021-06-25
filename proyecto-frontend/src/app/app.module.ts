@@ -45,6 +45,8 @@ import { PosteoComponent } from './components/posteo/posteo.component';
 import { PosteoFormComponent } from './components/gestion/posteo-form/posteo-form.component';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { PagoAlumnoComponent } from './components/pago-alumno/pago-alumno.component';
+import { FacebookModule } from 'ngx-fb';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -92,7 +94,8 @@ import { PagoAlumnoComponent } from './components/pago-alumno/pago-alumno.compon
     MatDialogModule,
     MatSortModule,
     MatPaginatorModule,
-    MatIconModule
+    MatIconModule,
+    FacebookModule
   ],
   exports:[
     MatSortModule,
