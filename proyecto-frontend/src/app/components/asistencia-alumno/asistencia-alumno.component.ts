@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Alumno } from 'src/app/models/alumno';
@@ -23,6 +25,12 @@ export class AsistenciaAlumnoComponent implements OnInit {
   date: Date = new Date();
   dataSource: MatTableDataSource<Asistencia>;
   alumno: Alumno;
+
+
+  
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  
   constructor( private activatedRoute: ActivatedRoute, private asistenciaService: AsistenciaService, private route: Router,
     private rutinaService: RutinaService, private alumnoService: AlumnoService) { }
 
@@ -42,6 +50,7 @@ export class AsistenciaAlumnoComponent implements OnInit {
         this.alumno = new Alumno();
         Object.assign(this.alumno, result)
         console.log(this.alumno);
+        this.ready = true
       }
     )
   }
@@ -58,7 +67,9 @@ export class AsistenciaAlumnoComponent implements OnInit {
         });
         this.persona_id = alumno;
         this.dataSource = new MatTableDataSource<Asistencia>(this.asistencias);
-        this.ready = true;
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+        this.ready = true
       }
     )
   }
@@ -70,6 +81,16 @@ export class AsistenciaAlumnoComponent implements OnInit {
 
   verRutina(a: Asistencia){
     this.route.navigate(['rutina-a/', a._id])
+  }
+
+  verRutinaNo(){
+    Swal.fire({
+      position: 'top-end',
+      icon: 'error',
+      title: 'La rutina no esta asignada, avisale al entrenador!',
+      showConfirmButton: false,
+      timer: 1000
+    })
   }
 
 }

@@ -2,7 +2,7 @@
   <mat-sidenav-container class="example-container h-100 row">
     <mat-sidenav #sidenav [mode]="mode.value" [opened]="open" position="end" class="col-12 col-md-2">
       <button mat-button (click)="sidenav.toggle()" class="navbar-toggler" type="button"  *ngIf="!open">
-        <span class="navbar-toggler-icon"></span>
+        <span class="bi-toggle-on fs-5"></span>
       </button>
         <ul class="nav nav-pills flex-column mb-auto mt-5">
           <li class="nav-item">
@@ -54,7 +54,7 @@
     <mat-sidenav-content class="col-12 col-md-10 position-sticky overflow-hide">
       <p>
         <button mat-button (click)="sidenav.toggle()" class="navbar-toggler" type="button" *ngIf="!open">
-          <span class="navbar-toggler-icon"></span>
+          <span class="bi-toggle-off fs-5"></span>
         </button>
       <router-outlet ></router-outlet>
     </mat-sidenav-content>

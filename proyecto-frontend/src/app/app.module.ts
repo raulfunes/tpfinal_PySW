@@ -18,7 +18,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatSelectModule } from '@angular/material/select';
@@ -42,6 +42,9 @@ import { LoginService } from './services/login.service';
 import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { MatIconModule} from '@angular/material/icon';
+import { PosteoComponent } from './components/posteo/posteo.component';
+import { PosteoFormComponent } from './components/gestion/posteo-form/posteo-form.component';
+import { TokenInterceptorService } from './services/token-interceptor.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,6 +65,8 @@ import { MatIconModule} from '@angular/material/icon';
     PlanFormComponent,
     LoginComponent,
     SignupComponent,
+    PosteoComponent,
+    PosteoFormComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -97,7 +102,12 @@ import { MatIconModule} from '@angular/material/icon';
   ,
 
   providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
-LoginService],
+LoginService,
+{ provide: HTTP_INTERCEPTORS,
+  useClass: TokenInterceptorService,
+  multi: true
+ }
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

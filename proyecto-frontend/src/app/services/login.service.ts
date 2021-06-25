@@ -27,7 +27,9 @@ export class LoginService {
     sessionStorage.removeItem("user");
     sessionStorage.removeItem("perfil");
     sessionStorage.removeItem("userid");
+    sessionStorage.removeItem("token");
   }
+
 
   public userLoggedIn() {
     var resultado = false;
@@ -57,5 +59,12 @@ export class LoginService {
     var rol = sessionStorage.getItem("rol");
     return rol;
   }
-  
+
+  getToken():string{
+    if (sessionStorage.getItem("token")!= null){
+    return sessionStorage.getItem("token");
+    }else{
+    return "";
+    }
+  }
 }
