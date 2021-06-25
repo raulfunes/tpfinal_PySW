@@ -18,6 +18,14 @@ usuarioCtrl.createUsuario = async (req, res) => {
         })
     }
 }
+
+usuarioCtrl.getUsuario = async(req, res)=>{
+    var usuario = await Usuario.find(
+        {persona: req.params.persona}
+    );
+    res.json(usuario);
+}
+
 usuarioCtrl.loginUsuario = async (req, res) => {
     //en req.body se espera que vengan las credenciales de login
     //defino los criterios de busqueda en base al username y password recibidos

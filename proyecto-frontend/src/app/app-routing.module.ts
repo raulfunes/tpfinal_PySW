@@ -9,8 +9,10 @@ import { AlumnoFormComponent } from './components/gestion/alumno-form/alumno-for
 import { PlanFormComponent } from './components/gestion/plan-form/plan-form.component';
 import { RutinaFormComponent } from './components/gestion/rutina-form/rutina-form.component';
 import { HomeComponent } from './components/home/home.component';
+import { LoginComponent } from './components/login/login.component';
 import { PlanComponent } from './components/plan/plan.component';
 import { RutinaAlumnoComponent } from './components/rutina-alumno/rutina-alumno.component';
+import { SignupComponent } from './components/signup/signup.component';
 
 const routes: Routes = [
   {
@@ -24,6 +26,14 @@ const routes: Routes = [
   {
     path: 'rutina-form/:asistencia',
     component: RutinaFormComponent
+  },
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: 'signup/:persona',
+    component: SignupComponent
   },
   {
     path: 'alumno',

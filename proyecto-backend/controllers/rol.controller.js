@@ -3,7 +3,7 @@ const rolCtrl = {}
 
 rolCtrl.getRol = async(req, res)=>{
     var rol = await Rol.find();
-    res.json(alumnos);
+    res.json(rol);
 }
 
 rolCtrl.createRol = async(req, res)=>{

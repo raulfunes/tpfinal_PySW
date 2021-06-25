@@ -1,0 +1,20 @@
+<form [formGroup]="usuarioFormGroup" class="row justify-content-center">
+    <ng-template matStepLabel>Ingrese su usuario</ng-template>
+    <mat-form-field class="col-12 col-md-6 m-3 ">
+        <mat-label>Usuario</mat-label>
+        <input matInput formControlName="username" required>
+      </mat-form-field>
+
+
+      <mat-form-field appearance="fill" class="col-12 col-md-6 m-3 ">
+        <mat-label>Contraseña</mat-label>
+        <input matInput formControlName="password" required [type]="hide ? 'password' : 'text'">
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+      <div class="row justify-content-lg-center">
+        <button mat-raised-button color="primary" class="col-3 me-3" (click)="login()" >Login</button>
+      </div>
+
+  </form>

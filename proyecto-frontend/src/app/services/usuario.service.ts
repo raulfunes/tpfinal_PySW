@@ -12,7 +12,7 @@ export class UsuarioService {
 
   constructor(private http:HttpClient) { }
 
-  getUsuario():Observable<any>{
+  getUsuario(persona):Observable<any>{
     let option={
       headers: new HttpHeaders({
       }),
@@ -20,7 +20,7 @@ export class UsuarioService {
       })
 
     }
-    return this.http.get(this.urlbase + "usuario", option);
+    return this.http.get(this.urlbase + "usuario/" + persona, option);
   }
 
   postUsuario(usuario: Usuario):Observable<any>{

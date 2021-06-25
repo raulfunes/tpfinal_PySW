@@ -38,6 +38,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { PlanFormComponent } from './components/gestion/plan-form/plan-form.component';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { LoginService } from './services/login.service';
+import { LoginComponent } from './components/login/login.component';
+import { SignupComponent } from './components/signup/signup.component';
+import { MatIconModule} from '@angular/material/icon';
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,6 +60,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     AsistenciaAlumnoComponent,
     RutinaAlumnoComponent,
     PlanFormComponent,
+    LoginComponent,
+    SignupComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -80,15 +86,18 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatCardModule,
     MatDialogModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatIconModule
   ],
   exports:[
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatIconModule
   ]
   ,
 
-  providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } }],
+  providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
+LoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
