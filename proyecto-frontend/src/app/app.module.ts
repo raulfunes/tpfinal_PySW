@@ -23,7 +23,6 @@ import { MatTableModule } from '@angular/material/table';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatSelectModule } from '@angular/material/select';
 import { AsistenciaComponent } from './components/asistencia/asistencia.component';
-import { RutinaComponent } from './components/rutina/rutina.component';
 import { RutinaFormComponent } from './components/gestion/rutina-form/rutina-form.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
@@ -45,6 +44,7 @@ import { MatIconModule} from '@angular/material/icon';
 import { PosteoComponent } from './components/posteo/posteo.component';
 import { PosteoFormComponent } from './components/gestion/posteo-form/posteo-form.component';
 import { TokenInterceptorService } from './services/token-interceptor.service';
+import { PagoAlumnoComponent } from './components/pago-alumno/pago-alumno.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,7 +55,6 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
     AlumnoComponent,
     AlumnoFormComponent,
     AsistenciaComponent,
-    RutinaComponent,
     RutinaFormComponent,
     EstadisticasComponent,
     PagoComponent,
@@ -67,6 +66,7 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
     SignupComponent,
     PosteoComponent,
     PosteoFormComponent,
+    PagoAlumnoComponent,
   ],
   imports: [
     ReactiveFormsModule,

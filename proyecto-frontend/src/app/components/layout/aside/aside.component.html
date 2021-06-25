@@ -1,44 +1,50 @@
 <div class="container-fluid vh-100" *ngIf="ready">
   <mat-sidenav-container class="example-container h-100 row">
-    <mat-sidenav #sidenav [mode]="mode.value" [opened]="open" position="end" class="col-12 col-md-2">
-      <button mat-button (click)="sidenav.toggle()" class="navbar-toggler" type="button"  *ngIf="!open">
+    <mat-sidenav #sidenav [mode]="mode.value" [opened]="open"  position="end" class="col-12 col-sm-10 col-md-3 col-lg-2">
+      <button mat-button (click)="cerrarSlide()" class="navbar-toggler" type="button"  *ngIf="toogle">
         <span class="bi-toggle-on fs-5"></span>
       </button>
         <ul class="nav nav-pills flex-column mb-auto mt-5">
           <li class="nav-item">
-            <a  routerLinkActive="active" [routerLink]="['']" class="nav-link">
+            <a [routerLink]="['']" (click)="cerrarSlide()"  class="nav-link text-white">
               <span class="bi bi-house"></span>
               Inicio
             </a>
           </li>
           <li *ngIf="rol.descripcion == 'Entrenador'">
-            <a  routerLinkActive="active" [routerLink]="['alumno-form/0']" class="nav-link text-white">
+            <a  routerLinkActive="active" [routerLink]="['alumno-form/0']" (click)="cerrarSlide()" class="nav-link text-white">
               <span class="bi bi-plus-circle"></span>
               Registrar Alumno
             </a>
           </li>
           <li *ngIf="rol.descripcion == 'Entrenador'">
-            <a  routerLinkActive="active" [routerLink]="['alumno']" class="nav-link text-white">
+            <a  routerLinkActive="active" [routerLink]="['alumno']" (click)="cerrarSlide()" class="nav-link text-white">
               <span class="bi bi-person"></span>
               Alumnos
             </a>
           </li>
           <li *ngIf="rol.descripcion == 'Entrenador'">
-            <a  routerLinkActive="active" [routerLink]="['pago']" class="nav-link text-white">
+            <a  routerLinkActive="active" [routerLink]="['pago']" (click)="cerrarSlide()" class="nav-link text-white">
               <span class="bi bi-currency-dollar"></span>
               Pagos
             </a>
           </li>
           <li *ngIf="rol.descripcion == 'Entrenador'">
-            <a  routerLinkActive="active" [routerLink]="['estadistica']" class="nav-link text-white">
+            <a  routerLinkActive="active" [routerLink]="['estadistica']" (click)="cerrarSlide()" class="nav-link text-white">
               <span class="bi bi-graph-up"></span>
               Estadisticas
             </a>
           </li>
           <li *ngIf="rol.descripcion == 'Alumno'">
-            <a  routerLinkActive="active" (click)="asistenciaAlumno()"  class="nav-link text-white">
+            <a  routerLinkActive="active" [routerLink]="['asistencia-a/' + alumno._id]" (click)="cerrarSlide()" class="nav-link text-white">
               <span class="bi bi-check"></span>
               Asistencia
+            </a>
+          </li>
+          <li *ngIf="rol.descripcion == 'Alumno'">
+            <a  routerLinkActive="active" [routerLink]="['pago-a/' + alumno._id]" (click)="cerrarSlide()" class="nav-link text-white">
+              <span class="bi bi-currency-dollar"></span>
+              Pago
             </a>
           </li>
         </ul>
@@ -49,8 +55,8 @@
             <strong>{{persona.nombre}} {{persona.apellido}}</strong>
           </a>
           <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-            <li ><a class="dropdown-item" [routerLink]="['']" (click)="logout()">Cerrar Sesion</a></li>
-            <li ><a class="dropdown-item" *ngIf="rol.descripcion == 'Entrenador'" [routerLink]="['signup/0']">Registrar Nuevo Entrenador</a></li>
+            <li ><a class="dropdown-item" [routerLink]="['signup/0']" (click)="cerrarSlide()" *ngIf="rol.descripcion == 'Entrenador'">Registrar Nuevo Entrenador</a></li>
+            <li ><a class="dropdown-item" [routerLink]="['']" (click)="logout()" (click)="cerrarSlide()">Cerrar Sesion</a></li>
           </ul>
         </div>
         <div *ngIf="!logged">
@@ -58,9 +64,9 @@
         </div>
     </mat-sidenav>
   
-    <mat-sidenav-content class="col-12 col-md-10 position-sticky overflow-hide">
+    <mat-sidenav-content class="col-12 col-md-12 col-lg-10 h-90 overflow-hide">
       <p>
-        <button mat-button (click)="sidenav.toggle()" class="navbar-toggler" type="button" *ngIf="!open">
+        <button mat-button (click)="cerrarSlide()" class="navbar-toggler" type="button" *ngIf="toogle">
           <span class="bi-toggle-off fs-5"></span>
         </button>
       <router-outlet ></router-outlet>

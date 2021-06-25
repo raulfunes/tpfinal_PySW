@@ -21,7 +21,7 @@ export class RutinaFormComponent implements OnInit {
   filtro: string;
   dataSource: MatTableDataSource<Ejercicio>;
   musculosControl = new FormControl('', Validators.required);
-  musculos = ['Pecho', 'Espalda', 'Piernas', 'Biceps', 'Triceps', 'Hombros'];
+  musculos = ['Pecho', 'Espalda', 'Piernas', 'Biceps', 'Triceps', 'Hombros',"Abdomen"];
   funcionControl = new FormControl('', Validators.required);
   funcion = ["Musculacion", "Cardio", "Zumba", "Yoga"];
   dificultadControl = new FormControl('', Validators.required);

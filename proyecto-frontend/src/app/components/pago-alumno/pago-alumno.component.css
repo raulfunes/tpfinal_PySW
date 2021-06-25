@@ -1,0 +1,17 @@
+@font-face {
+    font-family: 'Big Scream';
+    src: url(/assets/font/BebasNeue-Regular.ttf) ;
+    font-weight:500;
+  }
+
+
+
+
+.botones_caja{
+    background-color: black;
+    color: white;
+    border: 4px double white;
+    font-family: 'Big Scream';
+}
+
+

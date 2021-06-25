@@ -1,17 +1,17 @@
-<div class="mt-3 p-3" >
+<div class="mt-3 p-3" *ngIf="ready">
   <span *ngIf="ready">Clases restantes: {{alumno.dias_restantes}}</span>
-  <div class="mat-elevation-z8" *ngIf="ready" class="mt-5">
+  <div class="mat-elevation-z8" *ngIf="ready" class="mt-2">
     <table mat-table [dataSource]="dataSource" class="w-100 table-responsive" matSort>
-  
+
       <!-- Nombre -->
       <ng-container matColumnDef="fecha">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</th>
         <td mat-cell *matCellDef="let asistencia"> {{verAsistencia(asistencia)}} </td>
       </ng-container>
-  
-  
+
+
       <!-- Detalles-->
-  
+
       <div class="row justify-content-center">
         <ng-container matColumnDef="rutina">
           <th mat-header-cell *matHeaderCellDef class="col-1"> Rutina </th>
@@ -25,10 +25,19 @@
           </td>
         </ng-container>
       </div>
-  
+
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-  
+
+  </div>
+</div>
+<div class="mt-3 row justify-content-center" *ngIf="ready == false">
+  <div class="col-12 col-md-10 col-lg-8">
+    <img src="../../../assets/images/xd.png" class="img-fluid" alt="a">
+  </div>
+  <button mat-raised-button color="primary" class="m-5 col-6 col-md-4" [routerLink]="['']">
+    Volver al inicio
+  </button>
 </div>

@@ -21,6 +21,16 @@ URL: string = "http://localhost:3000/api/pago";
     return this._http.get(this.URL, _option);
   }
 
+  public getPagoAlumno(alumno: String): Observable<any> {
+    let _option = {
+      header: new HttpHeaders({}),
+      params: new HttpParams({})
+    }
+    return this._http.get(this.URL+ "/"+ alumno, _option);
+  }
+
+
+
   /*Agrega un pago*/
   public addPago(_pago: Pago): Observable<any> {
     let _option = {

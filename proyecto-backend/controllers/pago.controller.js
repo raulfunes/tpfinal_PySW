@@ -1,8 +1,16 @@
 const Pago = require('../models/pago')
 const pagoCtrl = {}
 
-pagoCtrl.getPago = async(req, res)=>{
+pagoCtrl.getPagos = async(req, res)=>{
     var pagos = await Pago.find().populate();
+    res.json(pagos);
+}
+
+
+pagoCtrl.getPagoAlumno = async(req, res)=>{
+    var pagos = await Pago.find({
+        alumno: req.params.alumno
+    }).populate("plan");
     res.json(pagos);
 }
 

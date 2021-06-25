@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { MatSort} from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Alumno } from 'src/app/models/alumno';
@@ -18,13 +18,13 @@ import Swal from 'sweetalert2';
 export class AsistenciaAlumnoComponent implements OnInit {
   displayedColumns: string[] = ['fecha', 'rutina'];
   asistencias:Array<Asistencia>;
-  ready:boolean = false;
   filtro: string;
   persona_id: String;
   asistencia: Asistencia;
   date: Date = new Date();
   dataSource: MatTableDataSource<Asistencia>;
-  alumno: Alumno;
+  ready: boolean = true;
+  alumno: Alumno= new Alumno();
 
 
   
@@ -49,8 +49,6 @@ export class AsistenciaAlumnoComponent implements OnInit {
       (result)=>{
         this.alumno = new Alumno();
         Object.assign(this.alumno, result)
-        console.log(this.alumno);
-        this.ready = true
       }
     )
   }
@@ -69,7 +67,10 @@ export class AsistenciaAlumnoComponent implements OnInit {
         this.dataSource = new MatTableDataSource<Asistencia>(this.asistencias);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
-        this.ready = true
+        if(this.asistencias.length == 0){
+          console.log("No se encontraron datos")
+          this.ready = false
+        }
       }
     )
   }

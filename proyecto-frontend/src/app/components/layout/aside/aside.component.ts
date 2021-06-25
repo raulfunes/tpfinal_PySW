@@ -3,7 +3,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
+import { Alumno } from 'src/app/models/alumno';
 import { Persona } from 'src/app/models/persona';
 import { Rol } from 'src/app/models/rol';
 import { AlumnoService } from 'src/app/services/alumno.service';
@@ -20,14 +21,16 @@ import { LoginComponent } from '../../login/login.component';
 })
 export class AsideComponent implements OnInit, OnDestroy {
   open = true;
+  toogle = false;
   ready: boolean = false;
   mode = new FormControl('side');
   destroyed = new Subject<void>();
   currentScreenSize: string;
   public logged: boolean;
-  persona: Persona;
-  rol: Rol;
-  // Create a map to display breakpoint names for demonstration purposes.
+  persona: Persona = new Persona();
+  rol: Rol = new Rol();
+  alumno: Alumno = new Alumno();
+  // Cambia la funcionalidad de la barra lateral.
   displayNameMap = new Map([
     [Breakpoints.XSmall, 'XSmall'],
     [Breakpoints.Small, 'Small'],
@@ -36,8 +39,10 @@ export class AsideComponent implements OnInit, OnDestroy {
     [Breakpoints.XLarge, 'XLarge'],
   ]);
 
-  constructor(breakpointObserver: BreakpointObserver,private route:Router, private userService: LoginService, private personaService: PersonaService, private rolService: RolService, private alumnoService: AlumnoService) {
+  constructor(breakpointObserver: BreakpointObserver, private route: Router, private userService: LoginService, private personaService: PersonaService, private rolService: RolService, private alumnoService: AlumnoService) {
     this.login();
+
+    //Observer de los tamaños
     breakpointObserver.observe([
       Breakpoints.XSmall,
       Breakpoints.Small,
@@ -45,73 +50,118 @@ export class AsideComponent implements OnInit, OnDestroy {
       Breakpoints.Large,
       Breakpoints.XLarge,
     ]).pipe(takeUntil(this.destroyed)).subscribe(result => {
-        for (const query of Object.keys(result.breakpoints)) {
-          if (result.breakpoints[query]) {
-            this.currentScreenSize = this.displayNameMap.get(query) ?? 'Unknown';
-            this.small_device();
-          }
+      for (const query of Object.keys(result.breakpoints)) {
+        if (result.breakpoints[query]) {
+          this.currentScreenSize = this.displayNameMap.get(query) ?? 'Unknown';
+          this.small_device();
         }
+      }
     });
-    this.rol = new Rol();
-    this.rol.descripcion = "None"
-    this.persona = new Persona();
-    this.persona.nombre = "None"
   }
 
-  small_device(){
-    if(this.currentScreenSize == "Small" || this.currentScreenSize == "XSmall"){
+  /**
+   * Cambia el sidenav de Abierto a Cerrado dependiendo del tamaño
+   */
+  small_device() {
+    if (this.currentScreenSize == "Small" || this.currentScreenSize == "XSmall") {
       this.open = false;
-    }else{
+      this.mode = new FormControl('over');
+      this.toogle = true
+    } else {
+      this.toogle = false;
       this.open = true;
+      this.mode = new FormControl('side');
+    }
+  }
+
+  cerrarSlide(){
+    if (this.currentScreenSize == "Small" || this.currentScreenSize == "XSmall") {
+      if(this.open == true){
+        this.open = false;
+      }else{
+        this.open = true;
+      }
     }
   }
 
   ngOnInit(): void {
   }
+
   ngOnDestroy() {
     this.destroyed.next();
     this.destroyed.complete();
   }
 
-  getPersonaLogged(){
+
+  /**
+   * Trae los datos de la Persona Logeada
+   */
+  getPersonaLogged() {
     this.personaService.getPersona(this.userService.perfilLogged()).subscribe(
-      (result)=>{
+      (result) => {
         this.persona = new Persona()
         Object.assign(this.persona, result);
-        this.ready = true;
+        this.getRolLogged();
       }
     )
   }
 
 
-
-  getRolLogged(){
+  /**
+   * Trae el Rol de la persona logeada
+   */
+  getRolLogged() {
     this.rolService.getRol(this.userService.rolLogged()).subscribe(
-      (result)=>{
+      (result) => {
         this.rol = new Rol();
         Object.assign(this.rol, result);
+        if(this.rol.descripcion == "Alumno"){
+          this.getAlumnoLogged(this.persona._id);
+        }
+      }
+    )
+  }
+
+/**
+ * Si el rol es "Alumno" trae sus datos.
+ * @param persona 
+ * ID Persona
+ */
+  getAlumnoLogged(persona: String){
+    this.alumnoService.getAlumnoPersona(persona).subscribe(
+      (result)=>{
+        this.alumno = new Alumno();
+        Object.assign(this.alumno, result[0]);
+        console.log(this.alumno)
         this.ready = true;
       }
     )
   }
 
 
-  login(){
+  /**
+   * Asigna a los valores de Persona y Rol si es que hay alguien logeado
+   */
+  login() {
     this.logged = this.userService.userLoggedIn();
-    if(this.logged == true){
+    if (this.logged == true) {
       this.getPersonaLogged();
-      this.getRolLogged();
-    }else{
+    } else {
       this.rol = new Rol();
       this.rol.descripcion = "None"
       this.persona = new Persona();
       this.persona.nombre = "None"
+      this.alumno = new Alumno();
       this.ready = true
     }
 
   }
 
-  logout(){
+
+  /**
+   * Cierra la sesion del usuario
+   */
+  logout() {
     Swal.fire({
       position: 'top-end',
       icon: 'info',
@@ -121,17 +171,35 @@ export class AsideComponent implements OnInit, OnDestroy {
     })
     this.userService.logout();
     this.logged = false;
-
     this.login();
   }
 
 
-  asistenciaAlumno(){
+  /**
+   * Redirige si el usuario logeado es un "Alumno" a su pestaña de asistencia
+   */
+  asistenciaAlumno() {
     this.alumnoService.getAlumnoPersona(this.persona._id).subscribe(
-      (result)=>{
+      (result) => {
         console.log(result);
         this.route.navigate(["asistencia-a/", result[0]._id])
       }
     )
   }
+
+
+
+  /**
+ * Redirige si el usuario logeado es un "Alumno" a su pestaña de pago
+ */
+  pagoAlumno() {
+    this.alumnoService.getAlumnoPersona(this.persona._id).subscribe(
+      (result) => {
+        console.log(result);
+        this.route.navigate(["pago-a/", result[0]._id])
+      }
+    )
+  }
+
+
 }

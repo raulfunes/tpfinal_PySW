@@ -10,6 +10,7 @@ import { PlanFormComponent } from './components/gestion/plan-form/plan-form.comp
 import { RutinaFormComponent } from './components/gestion/rutina-form/rutina-form.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
+import { PagoAlumnoComponent } from './components/pago-alumno/pago-alumno.component';
 import { PlanComponent } from './components/plan/plan.component';
 import { RutinaAlumnoComponent } from './components/rutina-alumno/rutina-alumno.component';
 import { SignupComponent } from './components/signup/signup.component';
@@ -69,6 +70,10 @@ const routes: Routes = [
   {
     path: 'pago',
     component: PagoComponent
+  },
+  {
+    path: 'pago-a/:alumno',
+    component: PagoAlumnoComponent
   },
   { path: '**', pathMatch: 'full', redirectTo: '' }
 ];
