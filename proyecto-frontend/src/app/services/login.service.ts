@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Rol } from '../models/rol';
 import { RolService } from './rol.service';
 
 @Injectable({
@@ -67,4 +68,5 @@ export class LoginService {
     return "";
     }
   }
+
 }

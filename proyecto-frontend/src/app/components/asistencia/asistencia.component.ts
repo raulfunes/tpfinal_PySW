@@ -1,15 +1,19 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
-import { timeInterval } from 'rxjs/operators';
 import { Alumno } from 'src/app/models/alumno';
 import { Asistencia } from 'src/app/models/asistencia';
+import { Rol } from 'src/app/models/rol';
 import { AlumnoService } from 'src/app/services/alumno.service';
 import { AsistenciaService } from 'src/app/services/asistencia.service';
+import { LoginService } from 'src/app/services/login.service';
+import { RolService } from 'src/app/services/rol.service';
 import { RutinaService } from 'src/app/services/rutina.service';
 import Swal from 'sweetalert2';
+import { RutinaFormComponent } from '../gestion/rutina-form/rutina-form.component';
 
 
 @Component({
@@ -17,49 +21,90 @@ import Swal from 'sweetalert2';
   templateUrl: './asistencia.component.html',
   styleUrls: ['./asistencia.component.css']
 })
-export class AsistenciaComponent implements OnInit{
+export class AsistenciaComponent implements OnInit {
+
+  //Forms Angular Material
   displayedColumns: string[] = ['fecha', 'rutina'];
-  asistencias:Array<Asistencia>;
-  ready:boolean = false;
+  dataSource: MatTableDataSource<Asistencia>;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  //Validaciones 
+  autenticacion: boolean = true;
+  ready: boolean = false;
+
+  //Contenedores
+  asistencias: Array<Asistencia>;
   filtro: string;
   persona_id: String;
   asistencia: Asistencia;
   date: Date = new Date();
-  dataSource: MatTableDataSource<Asistencia>;
-  alumno: Alumno;
+  alumno: Alumno = new Alumno();
 
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  
-  constructor( private activatedRoute: ActivatedRoute, private asistenciaService: AsistenciaService, private route: Router,
-    private rutinaService: RutinaService, private alumnoService: AlumnoService) { }
-  
+
+  constructor(private activatedRoute: ActivatedRoute,
+    private asistenciaService: AsistenciaService,
+    private route: Router,
+    private rutinaService: RutinaService,
+    private alumnoService: AlumnoService,
+    private loginService: LoginService,
+    private rolService: RolService,
+    public dialog: MatDialog) {
+    this.comprobarRol()
+  }
 
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(
-      params=>{
-          this.getAlumno(params.id);
-          this.listAsistencia(params.id);
-    }) 
+      params => {
+        this.getAlumno(params.id);
+        this.listAsistencia(params.id);
+      })
   }
 
 
+  /**
+   * Encuntra el rol con el que esta logeado el usuario para mostrar el formulario
+   */
+  comprobarRol() {
+    if (this.loginService.rolLogged() == null) {
+      this.autenticacion = false;
+    }
+    this.rolService.getRol(this.loginService.rolLogged()).subscribe(
+      (result) => {
+        let rol = new Rol();
+        Object.assign(rol, result);
+        if (rol.descripcion != "Entrenador") {
+          this.autenticacion = false;
+        }
+      }
+    )
+  }
 
-  getAlumno(alumno: String){
+
+  /**
+   * Trae el alumno del cual se quiere ver la asistencia
+   * @param alumno String ID Alumno
+   */
+  getAlumno(alumno: String) {
     this.alumnoService.getAlumno(alumno).subscribe(
-      (result)=>{
+      (result) => {
         this.alumno = new Alumno();
         Object.assign(this.alumno, result)
-        console.log(this.alumno);
         this.ready = true
       }
     )
   }
 
-  listAsistencia(alumno: String){
+
+
+  /**
+   * Lista las asistencias que tiene el usuario
+   * @param alumno String ID Alumno
+   */
+  listAsistencia(alumno: String) {
     this.asistenciaService.getAsistenciaAlumno(alumno).subscribe(
-      (result)=>{
+      (result) => {
         this.asistencias = new Array<Asistencia>();
         result.forEach(element => {
           let oAsistencia = new Asistencia();
@@ -75,14 +120,18 @@ export class AsistenciaComponent implements OnInit{
     )
   }
 
-  
-  applyFilter(text: String){
+
+
+  applyFilter(text: String) {
     this.dataSource.filter = text.trim().toLocaleLowerCase();
   }
 
 
-  marcarAsistencia(){
-    if(this.alumno.dias_restantes > 0){
+  /**
+   * Marcar la asistencia con el dia de la fecha
+   */
+  marcarAsistencia() {
+    if (this.alumno.dias_restantes > 0) {
       Swal.fire({
         title: 'Estas seguro?',
         text: "Se le marcara la asistencia tambien al alumno",
@@ -98,18 +147,17 @@ export class AsistenciaComponent implements OnInit{
         this.asistencia.rutina = "0";
         if (result.isConfirmed) {
           this.asistenciaService.postAsistencia(this.asistencia).subscribe(
-            (result)=>{
-              if(result.status == "1"){
+            (result) => {
+              if (result.status == "1") {
                 this.listAsistencia(this.persona_id);
                 this.alumno.dias_restantes = this.alumno.dias_restantes - 1
                 this.alumnoService.modificarAlumno(this.alumno).subscribe(
-                  (result2)=>{
-                    console.log(result2)
+                  (result2) => {
                   }
                 )
-              }else{
+              } else {
               }
-              
+
             }
           )
           Swal.fire(
@@ -118,7 +166,7 @@ export class AsistenciaComponent implements OnInit{
         }
       })
     }
-    else{
+    else {
       Swal.fire({
         position: 'top-end',
         icon: 'error',
@@ -129,10 +177,15 @@ export class AsistenciaComponent implements OnInit{
     }
   }
 
-  asignarRutina(asistencia: Asistencia){
+
+  /**
+   * Se agrega una rutina a la asistencia elegida
+   * @param asistencia Asistencia a Asignar Rutina
+   */
+  asignarRutina(asistencia: Asistencia) {
     this.rutinaService.getRutinaAsistencia(asistencia._id).subscribe(
-      (result)=>{
-        if (result.length == 0){
+      (result) => {
+        if (result.length == 0) {
           Swal.fire({
             title: 'Asistencia sin rutina asignada',
             text: "¿Desea asignar una?",
@@ -143,24 +196,36 @@ export class AsistenciaComponent implements OnInit{
             confirmButtonText: 'Asignar Rutina'
           }).then((result) => {
             if (result.isConfirmed) {
-              this.route.navigate(['rutina-form/' + asistencia._id])
+              const dialogRef = this.dialog.open(RutinaFormComponent, {
+                width: '700px',
+                height: '500px',
+                data: {
+                  asistencia_id: asistencia._id,
+                }
+              });
+              dialogRef.afterClosed().subscribe(res => {
+                this.listAsistencia(this.alumno._id);
+              })
             }
           })
         }
-        else{
-          console.log(result); 
+        else {
+          console.log(result);
         }
       }
     )
-
   }
 
 
-  modificarRutina(asistencia: Asistencia){
+  /**
+   * 
+   * @param asistencia Asistencia a la cual se quiere modifica
+   */
+  modificarRutina(asistencia: Asistencia) {
     this.rutinaService.getRutinaAsistencia(asistencia._id).subscribe(
-      (result)=>{
+      (result) => {
         console.log(result);
-        if (result.length == 1){
+        if (result.length == 1) {
           Swal.fire({
             title: 'Asistencia con rutina asignada',
             text: "¿Desea modificarla?",
@@ -171,21 +236,34 @@ export class AsistenciaComponent implements OnInit{
             confirmButtonText: 'Modificar Rutina'
           }).then((result) => {
             if (result.isConfirmed) {
-              console.log(asistencia.rutina)
-              this.route.navigate(['rutina-form/' + asistencia._id])
+              const dialogRef = this.dialog.open(RutinaFormComponent, {
+                width: '700px',
+                height: '500px',
+                data: {
+                  asistencia_id: asistencia._id,
+                }
+              });
+              dialogRef.afterClosed().subscribe(res => {
+                this.listAsistencia(this.alumno._id);
+              })
             }
           })
         }
-        else{
+        else {
           console.log(result);
         }
       }
     )
 
   }
-  
 
-  verAsistencia(a: Asistencia): String{
+
+  /**
+   * Devuelve la fecha con formato dd/MM/YY
+   * @param a Asistencia Para sacar su fecha
+   * @returns String Fecha con Formato
+   */
+  verAsistencia(a: Asistencia): String {
     let d = new Date(a.fecha);
     return d.toLocaleDateString();
   }

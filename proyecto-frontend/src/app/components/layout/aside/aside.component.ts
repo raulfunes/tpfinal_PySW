@@ -1,6 +1,7 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -12,6 +13,7 @@ import { LoginService } from 'src/app/services/login.service';
 import { PersonaService } from 'src/app/services/persona.service';
 import { RolService } from 'src/app/services/rol.service';
 import Swal from 'sweetalert2';
+import { SignupComponent } from '../../signup/signup.component';
 
 @Component({
   selector: 'app-aside',
@@ -38,7 +40,13 @@ export class AsideComponent implements OnInit, OnDestroy {
     [Breakpoints.XLarge, 'XLarge'],
   ]);
 
-  constructor(breakpointObserver: BreakpointObserver, private route: Router, private userService: LoginService, private personaService: PersonaService, private rolService: RolService, private alumnoService: AlumnoService) {
+  constructor(breakpointObserver: BreakpointObserver, 
+    private route: Router, 
+    private userService: LoginService, 
+    private personaService: PersonaService,
+     private rolService: RolService, 
+     private alumnoService: AlumnoService,
+     public dialog:MatDialog) {
     this.login();
 
     //Observer de los tamaños
@@ -200,5 +208,17 @@ export class AsideComponent implements OnInit, OnDestroy {
     )
   }
 
+
+  registrarEntrenador(){
+    const dialogRef = this.dialog.open(SignupComponent, {
+      width: '500px',
+      data: {
+        persona: "0",
+      }
+    });
+    dialogRef.afterClosed().subscribe(res => {
+
+    }) 
+  }
 
 }

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Persona } from 'src/app/models/persona';
 import { Rol } from 'src/app/models/rol';
@@ -23,8 +24,16 @@ export class SignupComponent implements OnInit {
   hide:boolean = true;
   accion:string;
   alumno_id: string;
-  constructor(private _formBuilder: FormBuilder, private router:Router, private rolService: RolService, private personaSevice: PersonaService, private usuarioService: UsuarioService, 
-    private activatedRoute: ActivatedRoute, private route: Router) { 
+  constructor(private _formBuilder: FormBuilder, 
+    private router:Router, 
+    private rolService: RolService, 
+    private personaSevice: PersonaService, 
+    private usuarioService: UsuarioService, 
+    private activatedRoute: ActivatedRoute, 
+    private route: Router, 
+    public dialogRef: MatDialogRef<SignupComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,) { 
+    this.load();
     this.listRoles();
   }
 
@@ -44,19 +53,17 @@ export class SignupComponent implements OnInit {
       rol: ['', Validators.required]
     });
 
-
-    this.activatedRoute.params.subscribe(
-      params=>{
-        if (params.persona == "0"){
-          this.accion = "Entrenador";
-        }else{
-          this.accion = "Alumno";
-          this.alumno_id = params.persona;
-        }
-      }
-    )
   }
 
+
+  load(){
+    if(this.data.persona != 0){
+      this.accion = "Alumno";
+      this.alumno_id = this.data.persona;
+    }else{
+      this.accion = "Entrenador"
+    }
+  }
 
 
   listRoles(){

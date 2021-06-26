@@ -1,94 +1,93 @@
-<h2 class="text-center mt-3">Informaci&oacute;n de Alumnos</h2>
-<div class="table-responsive">
-  <table class="table text-light" [mfData]="_alumnos" #mf="mfDataTable" [mfRowsOnPage]="3">
-    <thead>
-      <tr>
-        <th>Apellido y Nombre</th>
-        <th>Plan</th>
-        <th>Fecha Inicio</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let alumno of mf.data">
-        <td>{{ alumno.persona.apellido | uppercase }}, {{ alumno.persona.nombre | uppercase }}</td>
-        <td>{{ alumno.plan.nombre }}</td>
-        <td>{{ alumno.fecha_inicio | date:"dd-MM-yyyy"}}</td>
-        <td>
-          <!-- Pagos -->
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pagosModal" data-bs-backdrop="false" (click)=verPagos(alumno)><i class="bi bi-currency-dollar" ></i></button>
-          <!-- Modal Pagos -->
-          <div class="modal fade" id="pagosModal" tabindex="-1" aria-labelledby="pagosModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content bg-dark">
-                <div class="modal-header">
-                  <h3 class="modal-title" id="pagosModalLabel">Listado de Pagos</h3>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <div class="table-responsive">
-                    <table class="table text-light" [mfData]="_verPagos" #mf="mfDataTable" [mfRowsOnPage]="3">
-                      <thead>
-                        <tr>
-                          <th>Fecha de Pago</th>
-                          <th>Monto</th>
-                          <th>Modo de Pago</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let pago of mf.data">
-                          <td>{{ pago.fecha_pago | date:"dd-MM-yyyy"}}</td>
-                          <td>$ {{ pago.monto }}</td>
-                          <td>{{ pago.modo_pago | uppercase }}</td>
-                        </tr>
-                      </tbody>
-                      <tfoot>
-                        <tr>
-                          <td colspan="3">
-                            <mfBootstrapPaginator [rowsOnPageSet]="[3,10,25]"></mfBootstrapPaginator>
-                          </td>
-                        </tr>
-                      </tfoot>
-                    </table>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                </div>
-              </div>
-            </div>
-          </div>
+<h2 class="text-center mt-3 ">Informaci&oacute;n de Alumnos</h2>
+<div class="table-responsive p-4">
+    <table class="table text-light" [mfData]="_alumnos" #mf="mfDataTable" [mfRowsOnPage]="3">
+        <thead>
+            <tr>
+                <th>Apellido y Nombre</th>
+                <th>Plan</th>
+                <th>Fecha Inicio</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let alumno of mf.data">
+                <td>{{ alumno.persona.apellido | uppercase }}, {{ alumno.persona.nombre | uppercase }}</td>
+                <td>{{ alumno.plan.nombre }}</td>
+                <td>{{ alumno.fecha_inicio | date:"dd-MM-yyyy"}}</td>
+                <td>
+                    <!-- Pagos -->
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pagosModal" data-bs-backdrop="false" (click)=verPagos(alumno)><i class="bi bi-currency-dollar" ></i></button>
+                    <!-- Modal Pagos -->
+                    <div class="modal fade" id="pagosModal" tabindex="-1" aria-labelledby="pagosModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content bg-dark">
+                                <div class="modal-header">
+                                    <h3 class="modal-title" id="pagosModalLabel">Listado de Pagos</h3>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="table-responsive">
+                                        <table class="table text-light" [mfData]="_verPagos" #mf="mfDataTable" [mfRowsOnPage]="3">
+                                            <thead>
+                                                <tr>
+                                                    <th>Fecha de Pago</th>
+                                                    <th>Monto</th>
+                                                    <th>Modo de Pago</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let pago of mf.data">
+                                                    <td>{{ pago.fecha_pago | date:"dd-MM-yyyy"}}</td>
+                                                    <td>$ {{ pago.monto }}</td>
+                                                    <td>{{ pago.modo_pago | uppercase }}</td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="3">
+                                                        <mfBootstrapPaginator [rowsOnPageSet]="[3,10,25]"></mfBootstrapPaginator>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-          <!-- Asistencias -->
-          <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#asistenciaModal" data-bs-backdrop="false" (click)=auxiliarAlumno(alumno)><i class="bi bi-card-checklist"></i></button>
-          <!-- Modal Asistencia -->
-          <div class="modal fade" id="asistenciaModal" tabindex="-1" aria-labelledby="asistenciaModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content bg-dark">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="asistenciaModalLabel">Modal title</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <!--{{ _auxiliarAlumno.persona.apellido }}, {{ _auxiliarAlumno.persona.nombre }}-->
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-    <tfoot>
-      <tr>
-        <td colspan="3">
-          <mfBootstrapPaginator [rowsOnPageSet]="[3,10,25]"></mfBootstrapPaginator>
-        </td>
-      </tr>
-    </tfoot>
-  </table>
+                    <!-- Asistencias -->
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#asistenciaModal" data-bs-backdrop="false" (click)=auxiliarAlumno(alumno)><i class="bi bi-card-checklist"></i></button>
+                    <!-- Modal Asistencia -->
+                    <div class="modal fade" id="asistenciaModal" tabindex="-1" aria-labelledby="asistenciaModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content bg-dark">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="asistenciaModalLabel">Modal title</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <!--{{ _auxiliarAlumno.persona.apellido }}, {{ _auxiliarAlumno.persona.nombre }}-->
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3">
+                    <mfBootstrapPaginator [rowsOnPageSet]="[3,10,25]"></mfBootstrapPaginator>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
 </div>
-

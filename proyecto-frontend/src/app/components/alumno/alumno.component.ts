@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -10,6 +11,7 @@ import { LoginService } from 'src/app/services/login.service';
 import { RolService } from 'src/app/services/rol.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import Swal from 'sweetalert2';
+import { SignupComponent } from '../signup/signup.component';
 
 @Component({
   selector: 'app-alumno',
@@ -17,7 +19,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./alumno.component.css']
 })
 export class AlumnoComponent implements OnInit {
-
+  
   //Forms Angular Material
   displayedColumns: string[] = ['nombre', 'apellido', 'plan', 'fecha_inicio', 'detalles', 'modificar', 'usuario'];
   dataSource: MatTableDataSource<Alumno>;
@@ -36,7 +38,8 @@ export class AlumnoComponent implements OnInit {
     private route: Router,
     private usuarioService: UsuarioService,
     private loginService: LoginService,
-    private rolService: RolService) {
+    private rolService: RolService,
+    public dialog: MatDialog) {
     this.listAlumnos();
     this.comprobarRol();
   }
@@ -52,12 +55,14 @@ export class AlumnoComponent implements OnInit {
   listAlumnos() {
     this.alumnoService.getAlumnos().subscribe(
       (result) => {
-        this.alumnos = new Array<Alumno>();
-        result.forEach(element => {
+        if (result.length > 1){
+          this.alumnos = new Array<Alumno>();
+          result.forEach(element => {
           let oAlumno = new Alumno();
           Object.assign(oAlumno, element);
           this.alumnos.push(oAlumno);
-        });
+          })
+        }
         this.dataSource = new MatTableDataSource<Alumno>(this.alumnos);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
@@ -66,7 +71,6 @@ export class AlumnoComponent implements OnInit {
             data.persona.apellido.trim().toLocaleLowerCase().indexOf(filterValue.trim().toLocaleLowerCase()) >= 0;
           return case_one
         };
-
         this.ready = true;
       }
     )
@@ -77,8 +81,12 @@ export class AlumnoComponent implements OnInit {
    * Encuntra el rol con el que esta logeado el usuario para mostrar el formulario
    */
   comprobarRol() {
+    if (this.loginService.rolLogged() == null){
+      this.autenticacion = false;
+    }
     this.rolService.getRol(this.loginService.rolLogged()).subscribe(
       (result) => {
+        console.log(result);
         let rol = new Rol();
         Object.assign(rol, result);
         console.log(rol);
@@ -167,7 +175,17 @@ export class AlumnoComponent implements OnInit {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Crear Usuario'
           }).then((result) => {
-            if (result.isConfirmed) { this.route.navigate(["signup/", id_persona]) }
+            if (result.isConfirmed) {               
+              const dialogRef = this.dialog.open(SignupComponent, {
+              width: '500px',
+              data: {
+                persona: id_persona,
+              }
+            });
+            dialogRef.afterClosed().subscribe(res => {
+
+            }) 
+          }
           })
         }
       }

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Asistencia } from 'src/app/models/asistencia';
@@ -31,7 +32,7 @@ export class RutinaFormComponent implements OnInit {
   dataSource: MatTableDataSource<Ejercicio>;
   
   //Validaciones
-  ready: boolean = true;
+  ready: boolean;
   autenticacion: boolean = true;
   accion: String;
 
@@ -49,37 +50,37 @@ export class RutinaFormComponent implements OnInit {
     private router: Router,
     private asistenciaService: AsistenciaService,
     private loginService: LoginService,
-    private rolService: RolService) {
+    private rolService: RolService,
+    public dialogRef: MatDialogRef<RutinaFormComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,){
 
     this.dataSource = new MatTableDataSource<Ejercicio>();
     this.ejerciciosSeleccionados = new Array<Ejercicio>();
     this.comprobarRol();
+    this.load();
   }
 
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe(
-      params => {
-        this.asistenciaService.getAsistencia(params.asistencia).subscribe(
-          (result) => {
-            this.asistencia = result
-            if (this.asistencia.rutina == "0") {
-              this.accion = "new"
-            }
-            else {
-              this.rutinaService.getRutina(this.asistencia.rutina).subscribe(
-                (result) => {
-                  Object.assign(this.ejerciciosSeleccionados, result.ejercicios);
-                  console.log(this.ejerciciosSeleccionados)
-                  if (this.ejerciciosSeleccionados.length > 0) { this.accion = "update" } else { this.accion = "new" };
-                }
-              )
-            }
-          });
-
-      }
-    )
   }
+
+  load(){       
+    this.asistenciaService.getAsistencia(this.data.asistencia_id).subscribe(
+    (result) => {
+      this.asistencia = result
+      if (this.asistencia.rutina == "0") {
+        this.accion = "new"
+      }
+      else {
+        this.rutinaService.getRutina(this.asistencia.rutina).subscribe(
+          (result) => {
+            Object.assign(this.ejerciciosSeleccionados, result.ejercicios);
+            if (this.ejerciciosSeleccionados.length > 0) { this.accion = "update" } else { this.accion = "new" };
+          }
+        )
+      }
+    });}
+
 
   /**
    * Encuntra el rol con el que esta logeado el usuario para mostrar el formulario
@@ -135,7 +136,9 @@ export class RutinaFormComponent implements OnInit {
    * @param ejercicio Ejercicio a deseleccionar
    */
   quitarSeleccionado(ejercicio: Ejercicio) {
-    this.ejerciciosSeleccionados.splice(this.ejerciciosSeleccionados.findIndex(element => element._id == ejercicio._id))
+    console.log(this.ejerciciosSeleccionados)
+    this.ejerciciosSeleccionados.splice(this.ejerciciosSeleccionados.findIndex(element => element._id == ejercicio._id), 1)
+    console.log(this.ejerciciosSeleccionados)
   }
 
 
