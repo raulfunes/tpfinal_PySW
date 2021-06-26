@@ -4,7 +4,10 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Alumno } from 'src/app/models/alumno';
+import { Rol } from 'src/app/models/rol';
 import { AlumnoService } from 'src/app/services/alumno.service';
+import { LoginService } from 'src/app/services/login.service';
+import { RolService } from 'src/app/services/rol.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import Swal from 'sweetalert2';
 
@@ -14,25 +17,38 @@ import Swal from 'sweetalert2';
   styleUrls: ['./alumno.component.css']
 })
 export class AlumnoComponent implements OnInit {
-  displayedColumns: string[] = ['nombre', 'apellido', 'plan', 'fecha_inicio', 'detalles', 'modificar', 'usuario'];
-  alumnos: Array<Alumno>;
-  ready: boolean = true;
-  filtro: string;
-  dataSource: MatTableDataSource<Alumno>;
 
+  //Forms Angular Material
+  displayedColumns: string[] = ['nombre', 'apellido', 'plan', 'fecha_inicio', 'detalles', 'modificar', 'usuario'];
+  dataSource: MatTableDataSource<Alumno>;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private alumnoService: AlumnoService, private route: Router, private usuarioService: UsuarioService) {
+  //Validaciones
+  autenticacion: boolean = true;
+  ready: boolean = true;
+  filtro: string;
+
+  //Contenedores
+  alumnos: Array<Alumno>;
+
+  constructor(private alumnoService: AlumnoService,
+    private route: Router,
+    private usuarioService: UsuarioService,
+    private loginService: LoginService,
+    private rolService: RolService) {
     this.listAlumnos();
+    this.comprobarRol();
   }
 
 
   ngOnInit(): void {
-
   }
 
 
+  /**
+   * Llena con alumnos con la lista de alumnos del gimnasio
+   */
   listAlumnos() {
     this.alumnoService.getAlumnos().subscribe(
       (result) => {
@@ -57,10 +73,34 @@ export class AlumnoComponent implements OnInit {
   }
 
 
+  /**
+   * Encuntra el rol con el que esta logeado el usuario para mostrar el formulario
+   */
+  comprobarRol() {
+    this.rolService.getRol(this.loginService.rolLogged()).subscribe(
+      (result) => {
+        let rol = new Rol();
+        Object.assign(rol, result);
+        console.log(rol);
+        if (rol.descripcion != "Entrenador") {
+          this.autenticacion = false;
+        }
+      }
+    )
+  }
+
+  /**
+   * Filtra por el texto ingresado los alumnos
+   * @param text Filtro String
+   */
   applyFilter(text: String) {
     this.dataSource.filter = text.trim().toLocaleLowerCase();
   }
 
+  /**
+   * Muestra los detalles del alumno y la opcion de obtener Asistencia
+   * @param alumno Alumno
+   */
   redirectToDetails(alumno: Alumno) {
     Swal.fire({
       title: '<strong>' + alumno.persona.apellido + ', ' + alumno.persona.nombre + '</strong>',
@@ -82,17 +122,29 @@ export class AlumnoComponent implements OnInit {
     })
   }
 
+  /**
+   * Redirecciona a la Asistencia del alumno seleccionado
+   * @param id String Alumno_id
+   */
   redirectToAssistance(id: String) {
     console.log("Asistencia");
     console.log(id)
     this.route.navigate(["asistencia/", id]);
   }
 
+
+  /**
+   * Redirecciona a la Modificacion del alumno seleccionado
+   * @param id String Alumno _id
+   */
   redirectToUpdate(id: String) {
     this.route.navigate(["alumno-form/", id]);
   }
 
-
+  /**
+   * Redirecciona a la creacion de Usuarios con el alumno seleccionado
+   * @param id_persona String Persona_id
+   */
   redirectToUser(id_persona: String) {
     this.usuarioService.getUsuario(id_persona).subscribe(
       (result) => {
@@ -104,23 +156,29 @@ export class AlumnoComponent implements OnInit {
             showConfirmButton: false,
             timer: 1500
           })
-        } 
-          else {
-            Swal.fire({
-              title: 'Usuario no Existe',
-              text: "¿Desea crear un usuario?",
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              confirmButtonText: 'Crear Usuario'
-            }).then((result) => {
-              if(result.isConfirmed){ this.route.navigate(["signup/", id_persona])}
-            })} 
         }
+        else {
+          Swal.fire({
+            title: 'Usuario no Existe',
+            text: "¿Desea crear un usuario?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Crear Usuario'
+          }).then((result) => {
+            if (result.isConfirmed) { this.route.navigate(["signup/", id_persona]) }
+          })
+        }
+      }
     )
   }
 
+  /**
+   * Formatea la fecha en formato dd/MM/YYYY
+   * @param a Date Sin Formato
+   * @returns String Date Formateado
+   */
   verAsistencia(a: Date): String {
     let d = new Date(a);
     return d.toLocaleDateString();

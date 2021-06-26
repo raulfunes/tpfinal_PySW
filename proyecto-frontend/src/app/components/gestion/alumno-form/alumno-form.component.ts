@@ -5,9 +5,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Alumno } from 'src/app/models/alumno';
 import { Persona } from 'src/app/models/persona';
 import { Plan } from 'src/app/models/plan';
+import { Rol } from 'src/app/models/rol';
 import { AlumnoService } from 'src/app/services/alumno.service';
+import { LoginService } from 'src/app/services/login.service';
 import { PersonaService } from 'src/app/services/persona.service';
 import { PlanService } from 'src/app/services/plan.service';
+import { RolService } from 'src/app/services/rol.service';
 import Swal from 'sweetalert2';
 @Component({
   selector: 'app-alumno-form',
@@ -15,19 +18,34 @@ import Swal from 'sweetalert2';
   styleUrls: ['./alumno-form.component.css']
 })
 export class AlumnoFormComponent implements OnInit {
+  //Form Groups
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
-  persona:Persona;
-  alumno:Alumno;
   stepper: StepperSelectionEvent;
+  
+  //Contenedores
+  persona:Persona = new Persona();
+  alumno: Alumno = new Alumno();
   planes: Array<Plan>
-  accion: String;
   idPersonaModificar: String;
   idAlumnoModificar:String;
-  constructor(private _formBuilder: FormBuilder, private planService:PlanService, private personaService:PersonaService
-    , private alumnoService: AlumnoService, private activatedRoute: ActivatedRoute, private router:Router) { 
+
+  //Validacion
+  accion: String;
+  autenticacion: boolean = true;
+
+  constructor(private _formBuilder: FormBuilder, 
+    private planService:PlanService, 
+    private personaService:PersonaService, 
+    private alumnoService: AlumnoService, 
+    private activatedRoute: ActivatedRoute, 
+    private router:Router, 
+    private loginService: LoginService, 
+    private rolService: RolService){ 
+
     this.listPlanes();
+    this.comprobarRutina();
   }
 
   ngOnInit(): void {
@@ -44,7 +62,6 @@ export class AlumnoFormComponent implements OnInit {
       plan: ['', Validators.required],
       fecha_inicio: ['', Validators.required]
     });
-
     this.activatedRoute.params.subscribe(
       params=>{
         if (params.id == "0"){
@@ -57,6 +74,26 @@ export class AlumnoFormComponent implements OnInit {
     )
   }
   
+
+  /**
+   * Encuntra la rutina con la que esta logeado el usuario para mostrar el formulario
+   */
+  comprobarRutina(){
+    this.rolService.getRol(this.loginService.rolLogged()).subscribe(
+      (result)=>{
+        let rol = new Rol();
+        Object.assign(rol, result);
+        console.log(rol);
+        if(rol.descripcion != "Entrenador"){
+          this.autenticacion = false;
+        }
+      }
+    )
+  }
+
+/**
+ * Agrega un Alumno a la BD
+ */
   agregarAlumno(){
     this.persona = new Persona();
     Object.assign(this.persona, this.firstFormGroup.value)
@@ -105,6 +142,10 @@ export class AlumnoFormComponent implements OnInit {
     )
   }
   
+
+  /**
+   * Modifica un alumno de la BD
+   */
   modificarAlumno(){
     Object.assign(this.persona, this.firstFormGroup.value);
     this.personaService.modificarPersona(this.persona).subscribe(
@@ -138,6 +179,9 @@ export class AlumnoFormComponent implements OnInit {
   }
 
 
+  /**
+   * Lista los planes para el combo
+   */
   listPlanes(){
     this.planService.getPlan().subscribe(
       (result)=>{
@@ -152,6 +196,11 @@ export class AlumnoFormComponent implements OnInit {
     ) 
   }
 
+
+  /**
+   * Carga los datos de un alumno a modificar
+   * @param id ID alumno a modificar
+   */
   cargarAlumno(id){
     //Llama al service
     this.alumnoService.getAlumno(id).subscribe(

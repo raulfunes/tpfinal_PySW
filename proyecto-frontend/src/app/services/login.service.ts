@@ -27,6 +27,7 @@ export class LoginService {
     sessionStorage.removeItem("perfil");
     sessionStorage.removeItem("userid");
     sessionStorage.removeItem("token");
+    sessionStorage.removeItem("rol");
   }
 
 
