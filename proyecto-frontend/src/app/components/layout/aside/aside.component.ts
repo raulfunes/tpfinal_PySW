@@ -12,7 +12,6 @@ import { LoginService } from 'src/app/services/login.service';
 import { PersonaService } from 'src/app/services/persona.service';
 import { RolService } from 'src/app/services/rol.service';
 import Swal from 'sweetalert2';
-import { LoginComponent } from '../../login/login.component';
 
 @Component({
   selector: 'app-aside',
@@ -22,7 +21,7 @@ import { LoginComponent } from '../../login/login.component';
 export class AsideComponent implements OnInit, OnDestroy {
   open = true;
   toogle = false;
-  ready: boolean = false;
+  ready: boolean = true;
   mode = new FormControl('side');
   destroyed = new Subject<void>();
   currentScreenSize: string;
