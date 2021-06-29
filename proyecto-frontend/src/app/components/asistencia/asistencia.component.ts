@@ -14,6 +14,7 @@ import { PagoService } from 'src/app/services/pago.service';
 import { RolService } from 'src/app/services/rol.service';
 import { RutinaService } from 'src/app/services/rutina.service';
 import Swal from 'sweetalert2';
+import { EjercicioFormComponent } from '../gestion/ejercicio-form/ejercicio-form.component';
 import { RutinaFormComponent } from '../gestion/rutina-form/rutina-form.component';
 
 
@@ -305,4 +306,9 @@ export class AsistenciaComponent implements OnInit {
     return dias;
   }
 
+  crearEjercicio(){
+    const dialogRef = this.dialog.open(EjercicioFormComponent, {
+      width: '700px'
+    })
+  }
 }

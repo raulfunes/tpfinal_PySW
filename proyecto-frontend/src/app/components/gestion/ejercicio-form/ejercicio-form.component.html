@@ -1,0 +1,78 @@
+
+<div class="row">
+    <div mat-dialog-title class="col-11">
+        RUTINA
+    </div>
+    <button mat-icon-button color="accent" [mat-dialog-close]="true" class="col-1">
+        <span class="bi-x-lg"></span>
+    </button>
+</div>
+<div mat-dialog-content>
+    <form [formGroup]="ejerciciosFormGroup" class="row">
+        <mat-form-field appearance="fill" class="mt-3 col-12 col-md-3">
+            <mat-label>Musculo</mat-label>
+            <mat-select formControlName="area_muscular" required>
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let m of musculos" [value]="m">
+                    {{m}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" class="mt-3 col-12 col-md-3">
+            <mat-label>Funcion</mat-label>
+            <mat-select formControlName="funcion" required>
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let f of funcion" [value]="f">
+                    {{f}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" class="mt-3 col-12 col-md-3">
+            <mat-label>Dificultad</mat-label>
+            <mat-select formControlName="dificultad" required>
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let d of dificultad" [value]="d">
+                    {{d}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" >
+            <mat-label>Nombre: </mat-label>
+            <input matInput type="text" formControlName="nombre" required>
+          </mat-form-field>
+    
+          
+        <mat-form-field appearance="fill" >
+            <mat-label>Descripcion: </mat-label>
+            <input matInput type="text" formControlName="descripcion" required>
+          </mat-form-field>
+          
+        <mat-form-field appearance="fill" >
+            <mat-label>Video: </mat-label>
+            <input matInput type="text" formControlName="video" required>
+          </mat-form-field>
+          
+        <mat-form-field appearance="fill" class="col-12 col-md-4 me-2">
+            <mat-label>Repeticiones: </mat-label>
+            <input matInput type="text" formControlName="repeticiones_promedio" required>
+          </mat-form-field>
+          
+        <mat-form-field appearance="fill" class="col-12 col-md-4 me-2">
+            <mat-label>Series: </mat-label>
+            <input matInput type="text" formControlName="series_promedio" required>
+          </mat-form-field>
+          
+          <div class="row justify-content-center">
+            <button mat-raised-button color="primary" class="col-6 mt-2" (click)="guardarEjercicio()">
+                Guardar Ejercicio
+          </button>
+          </div>
+
+    </form>
+</div>
+
+
+

@@ -3,7 +3,7 @@ const asistenciaCtrl = {}
 
 
 asistenciaCtrl.getAsistencias = async(req, res)=>{
-    const asistencias = await Asistencia.find();
+    const asistencias = await Asistencia.find().sort({fecha:-1});
     res.json(asistencias);
 }
 

@@ -46,6 +46,7 @@ import { PosteoFormComponent } from './components/gestion/posteo-form/posteo-for
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { PagoAlumnoComponent } from './components/pago-alumno/pago-alumno.component';
 import { FacebookModule } from 'ngx-fb';
+import { EjercicioFormComponent } from './components/gestion/ejercicio-form/ejercicio-form.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { FacebookModule } from 'ngx-fb';
     PosteoComponent,
     PosteoFormComponent,
     PagoAlumnoComponent,
+    EjercicioFormComponent,
   ],
   imports: [
     ReactiveFormsModule,

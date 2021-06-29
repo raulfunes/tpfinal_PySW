@@ -18,6 +18,7 @@ export class PosteoComponent implements OnInit {
   posteos:Array<Posteo> = new Array<Posteo>();
   mensaje: string = "";
   rol: Rol = new Rol();
+  access_t: string = "EAADace0dOIQBANyy0nPZCZA8Ysf72QNAeyVH9zC0GCBeLZBaGoetWu00iqPK8zz8GVv2iQnPwhWJ5z0dCURqwi67KZCyRXZAQKsjT51J6lKCUXQ0ELrXTAOQAfTFN6vcZCBZAfdYx36MBWWAz1am4ZB4wjAYgpk5S9rmXilHXkIc4DCyJ8wfI9gaZATA8rFuBowtPhr9xSoZBBswZDZD";
   constructor(private fb: FacebookService, 
     private dialog: MatDialog,
     private loginService: LoginService,
@@ -31,10 +32,11 @@ export class PosteoComponent implements OnInit {
 
 
   getpostFb() {
+    this.posteos = new Array<Posteo>();
     var apiMethod: ApiMethod = "get";
     this.fb.api('/112504197750658/posts', apiMethod,
       {
-        "access_token": "EAADace0dOIQBABSjKw5E9SB1WMh0QhRuZBgCgPfr9uibPku8ZBoat1rRI0VgfMZAgly8xq4d52VERO5LZAursAE5Chspb3UxC9yrFvp8r0p4hum8oB8KJ8yzlXpf7ZA0AUXYAZBSKXDxayqSN8H8XPWTyDva1L5H1qPXgWTypTHacbLbqQlMtS3uFmwUHCaKHOPqHG3Jm5OQZDZD"
+        "access_token": this.access_t
       }).then(res =>  res.data.forEach(post => {
         let uPosteo = new Posteo();  
         Object.assign(uPosteo, post);
@@ -76,6 +78,7 @@ export class PosteoComponent implements OnInit {
       width: '500px',
       data: {
         id : "0",
+        token: this.access_t
       }
     });
     dialogRef.afterClosed().subscribe(res => {
@@ -89,6 +92,7 @@ export class PosteoComponent implements OnInit {
       width: '500px',
       data: {
         id : posteo.id,
+        token: this.access_t,
         message : posteo.message
       }
     });
@@ -103,7 +107,7 @@ export class PosteoComponent implements OnInit {
     var apiMethod: ApiMethod = "delete";
     this.fb.api('/' + id, apiMethod,
       {
-        "access_token": "EAADace0dOIQBABSjKw5E9SB1WMh0QhRuZBgCgPfr9uibPku8ZBoat1rRI0VgfMZAgly8xq4d52VERO5LZAursAE5Chspb3UxC9yrFvp8r0p4hum8oB8KJ8yzlXpf7ZA0AUXYAZBSKXDxayqSN8H8XPWTyDva1L5H1qPXgWTypTHacbLbqQlMtS3uFmwUHCaKHOPqHG3Jm5OQZDZD"
+        "access_token": this.access_t
       }).then(res => {
         this.posteos = new Array<Posteo>();
         this.getpostFb();

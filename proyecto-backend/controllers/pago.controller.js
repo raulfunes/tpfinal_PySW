@@ -2,7 +2,7 @@ const Pago = require('../models/pago')
 const pagoCtrl = {}
 
 pagoCtrl.getPagos = async(req, res)=>{
-    var pagos = await Pago.find().populate();
+    var pagos = await Pago.find().sort({fecha_pago:-1}).populate();
     res.json(pagos);
 }
 

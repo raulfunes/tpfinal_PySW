@@ -3,6 +3,9 @@
   <button mat-icon-button (click)="crearPosteo()" *ngIf="rol.descripcion == 'Entrenador'" class="mt-2 bg-fb float-end">
     <span class="bi-plus fs-1"></span>
   </button>
+  <button mat-icon-button (click)="getpostFb()" *ngIf="rol.descripcion == 'Entrenador'" class="mt-2 me-2 bg-fb float-end">
+    <span class="bi-arrow-counterclockwise fs-2"></span>
+  </button>
   <div class="row w-100">
     <div class="col-10 m-3" *ngFor="let post of posteos">
       <div class="row border border-3 rounded rounded-3 bg-card">

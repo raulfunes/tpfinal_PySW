@@ -1,6 +1,9 @@
 <div *ngIf="autenticacion">
     <button mat-raised-button color="accent" (click)="marcarAsistencia()" class="mt-3 ms-3 me-3">Marcar clase de hoy</button>
     <span *ngIf="ready">Clases restantes: {{alumno.dias_restantes}}</span>
+    <button mat-icon-button (click)="crearEjercicio()" class="float-end">
+        <span class="bi-plus fs-3" color="accent"></span>
+    </button>
     <div class="mat-elevation-z8" *ngIf="ready" class="mt-3">
         <table mat-table [dataSource]="dataSource" class="w-100" matSort>
 

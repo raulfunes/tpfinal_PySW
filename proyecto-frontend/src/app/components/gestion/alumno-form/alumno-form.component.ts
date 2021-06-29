@@ -83,7 +83,6 @@ export class AlumnoFormComponent implements OnInit {
       (result)=>{
         let rol = new Rol();
         Object.assign(rol, result);
-        console.log(rol);
         if(rol.descripcion != "Entrenador"){
           this.autenticacion = false;
         }
@@ -106,7 +105,6 @@ export class AlumnoFormComponent implements OnInit {
           this.alumno.dias_restantes = 0;
           this.alumnoService.postAlumno(this.alumno).subscribe(
             (resultAlu)=>{
-              console.log(resultAlu)
               if(resultAlu.status == "1"){
                 Swal.fire({
                   position: 'top-end',
@@ -115,11 +113,9 @@ export class AlumnoFormComponent implements OnInit {
                   showConfirmButton: false,
                   timer: 2000
                 })
+                this.router.navigate(['alumno'])
                 this.firstFormGroup.reset();
                 this.secondFormGroup.reset();
-
-                this.stepper ;
-                
               }
               else{
                 Swal.fire({
@@ -150,30 +146,37 @@ export class AlumnoFormComponent implements OnInit {
     Object.assign(this.persona, this.firstFormGroup.value);
     this.personaService.modificarPersona(this.persona).subscribe(
       (result)=>{
-          console.log(result);
-          this.alumno = new Alumno()
-          this.alumno._id = this.idAlumnoModificar;
-          this.alumnoService.modificarAlumno(this.alumno).subscribe(
-            (result)=>{
-              if (result.status == "1"){
-                Swal.fire({
-                  position: 'top-end',
-                  icon: 'success',
-                  title: 'Alumno modificado',
-                  showConfirmButton: false,
-                  timer: 2000
-                })
-                this.router.navigate(['alumno'])
+          console.log(result)
+          if(result.status == "1"){
+            this.alumnoService.getAlumno(this.alumno._id).subscribe(
+              (resultA)=>{
+                this.alumno = new Alumno()
+                Object.assign(this.alumno, resultA)
+                Object.assign(this.alumno, this.secondFormGroup.value)
+                this.alumnoService.modificarAlumno(this.alumno).subscribe(
+                  (resultAlumno)=>{
+                    if (resultAlumno.status == "1"){
+                      Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Alumno modificado',
+                        showConfirmButton: false,
+                        timer: 2000
+                      })
+                      this.router.navigate(['alumno'])
+                    }
+                    else{
+                      Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'No fue posible modificar',
+                      })
+                    }
+                  }
+                )    
               }
-              else{
-                Swal.fire({
-                  icon: 'error',
-                  title: 'Oops...',
-                  text: 'No fue posible modificar',
-                })
-              }
-            }
-          )        
+            )
+          }       
       }
     )
   }

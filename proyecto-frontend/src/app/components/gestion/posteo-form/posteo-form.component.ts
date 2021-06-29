@@ -18,7 +18,7 @@ export class PosteoFormComponent implements OnInit {
   accion: string;
   postForm: FormGroup;
   close: boolean = false;
-
+  
   @ViewChild('autosize') autosize: CdkTextareaAutosize;
   constructor(private fb: FacebookService,
     private frmb: FormBuilder,
@@ -36,8 +36,6 @@ export class PosteoFormComponent implements OnInit {
   }
 
 
-
-
   load(){
     console.log(this.data)
     if (this.data.id == "0"){
@@ -49,12 +47,13 @@ export class PosteoFormComponent implements OnInit {
     }
     
   }
+  
   postFb() {
     var apiMethod: ApiMethod = "post";
     this.fb.api('/112504197750658/feed', apiMethod,
       {
         "message": this.postForm.value.mensaje,
-        "access_token": "EAADace0dOIQBABSjKw5E9SB1WMh0QhRuZBgCgPfr9uibPku8ZBoat1rRI0VgfMZAgly8xq4d52VERO5LZAursAE5Chspb3UxC9yrFvp8r0p4hum8oB8KJ8yzlXpf7ZA0AUXYAZBSKXDxayqSN8H8XPWTyDva1L5H1qPXgWTypTHacbLbqQlMtS3uFmwUHCaKHOPqHG3Jm5OQZDZD"
+        "access_token": this.data.token
       }).then(res => {this.close=true});
   }
 
@@ -63,7 +62,7 @@ export class PosteoFormComponent implements OnInit {
     this.fb.api('/' +this.data.id, apiMethod,
       {
         "message": this.postForm.value.mensaje,
-        "access_token": "EAADace0dOIQBABSjKw5E9SB1WMh0QhRuZBgCgPfr9uibPku8ZBoat1rRI0VgfMZAgly8xq4d52VERO5LZAursAE5Chspb3UxC9yrFvp8r0p4hum8oB8KJ8yzlXpf7ZA0AUXYAZBSKXDxayqSN8H8XPWTyDva1L5H1qPXgWTypTHacbLbqQlMtS3uFmwUHCaKHOPqHG3Jm5OQZDZD"
+        "access_token": this.data.token
       }).then(res => {this.close=true});
   }
 

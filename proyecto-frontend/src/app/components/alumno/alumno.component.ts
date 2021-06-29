@@ -55,12 +55,12 @@ export class AlumnoComponent implements OnInit {
   listAlumnos() {
     this.alumnoService.getAlumnos().subscribe(
       (result) => {
-        if (result.length > 1){
+        if (result.length > 0){
           this.alumnos = new Array<Alumno>();
           result.forEach(element => {
-          let oAlumno = new Alumno();
-          Object.assign(oAlumno, element);
-          this.alumnos.push(oAlumno);
+            let oAlumno = new Alumno();
+            Object.assign(oAlumno, element);
+            this.alumnos.push(oAlumno);
           })
         }
         this.dataSource = new MatTableDataSource<Alumno>(this.alumnos);
@@ -86,10 +86,8 @@ export class AlumnoComponent implements OnInit {
     }
     this.rolService.getRol(this.loginService.rolLogged()).subscribe(
       (result) => {
-        console.log(result);
         let rol = new Rol();
         Object.assign(rol, result);
-        console.log(rol);
         if (rol.descripcion != "Entrenador") {
           this.autenticacion = false;
         }
@@ -135,8 +133,6 @@ export class AlumnoComponent implements OnInit {
    * @param id String Alumno_id
    */
   redirectToAssistance(id: String) {
-    console.log("Asistencia");
-    console.log(id)
     this.route.navigate(["asistencia/", id]);
   }
 
