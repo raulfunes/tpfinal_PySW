@@ -19,7 +19,7 @@ import { PagoService } from 'src/app/services/pago.service';
 export class EstadisticasComponent implements OnInit {
   displayedColumns: string[] = ['apellido', 'nombre', 'plan', 'fecha_inicio', 'pagos', 'asistencias'];
   _displayedColumnsPago: string[] = ['fecha_pago', 'monto', 'modo_pago'];
-  _displayedColumnsAsistencia: string[];
+  _displayedColumnsAsistencia: string[] = ['fecha', 'rutina'];
 
   _alumnos: Array<Alumno>;
   _pagos: Array<Pago>;
@@ -82,6 +82,7 @@ export class EstadisticasComponent implements OnInit {
           this._verAsistencias.push(oAsistencia);
           console.log(this._verAsistencias);
         });
+        this._dataSourceAsistencia = new MatTableDataSource<Asistencia>(this._verAsistencias);
       }
     );
   }
