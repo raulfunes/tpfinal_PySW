@@ -19,7 +19,7 @@ import { PagoService } from 'src/app/services/pago.service';
 export class EstadisticasComponent implements OnInit {
   displayedColumns: string[] = ['apellido', 'nombre', 'plan', 'fecha_inicio', 'pagos', 'asistencias'];
   _displayedColumnsPago: string[] = ['fecha_pago', 'monto', 'modo_pago'];
-  _displayedColumnsAsistencia: string[] = ['fecha', 'rutina'];
+  _displayedColumnsAsistencia: string[] = ['fecha'];
 
   _alumnos: Array<Alumno>;
   _pagos: Array<Pago>;

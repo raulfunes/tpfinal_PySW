@@ -18,6 +18,7 @@ export class PagoComponent implements OnInit {
   _mostrarPlan: boolean = false;
   _plan: Plan;
   _ready: boolean = false;
+
   constructor(private _pagoService: PagoService, private _alumnoService: AlumnoService) {
     this.obtenerAlumno();
     this._pago = new Pago();
@@ -52,6 +53,7 @@ export class PagoComponent implements OnInit {
   agregarPago(contentPrint) {
     this._pago.fecha_pago = new Date();
     this._pago.plan = this._plan;
+    this._pago.monto = this._plan.monto;
     this.asignarAlumno(this._pago.alumno);
     
     this._pagoService.addPago(this._pago).subscribe(
