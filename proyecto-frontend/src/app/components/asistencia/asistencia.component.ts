@@ -10,6 +10,7 @@ import { Rol } from 'src/app/models/rol';
 import { AlumnoService } from 'src/app/services/alumno.service';
 import { AsistenciaService } from 'src/app/services/asistencia.service';
 import { LoginService } from 'src/app/services/login.service';
+import { PagoService } from 'src/app/services/pago.service';
 import { RolService } from 'src/app/services/rol.service';
 import { RutinaService } from 'src/app/services/rutina.service';
 import Swal from 'sweetalert2';
@@ -41,7 +42,6 @@ export class AsistenciaComponent implements OnInit {
   date: Date = new Date();
   alumno: Alumno = new Alumno();
 
-
   constructor(private activatedRoute: ActivatedRoute,
     private asistenciaService: AsistenciaService,
     private route: Router,
@@ -49,7 +49,8 @@ export class AsistenciaComponent implements OnInit {
     private alumnoService: AlumnoService,
     private loginService: LoginService,
     private rolService: RolService,
-    public dialog: MatDialog) {
+    public dialog: MatDialog,
+    private pagoService:PagoService) {
     this.comprobarRol()
   }
 
@@ -91,6 +92,7 @@ export class AsistenciaComponent implements OnInit {
       (result) => {
         this.alumno = new Alumno();
         Object.assign(this.alumno, result)
+        this.comprobarVencimiento();
         this.ready = true
       }
     )
@@ -265,4 +267,42 @@ export class AsistenciaComponent implements OnInit {
     let d = new Date(a.fecha);
     return d.toLocaleDateString();
   }
+
+  comprobarVencimiento(){
+    this.pagoService.getUltimoPagoAlumno(this.alumno._id).subscribe(
+      (result)=>{
+        if(result.status == "1"){
+          var ultimo_pago = new Date(result.ultimo_pago)
+          var fecha_hoy = new Date()
+          var dias = this.restarFechas(ultimo_pago, fecha_hoy)
+          if(dias > 30 && this.alumno.dias_restantes > 0){
+            this.alumno.dias_restantes = 0;
+            this.alumnoService.modificarAlumno(this.alumno).subscribe(
+              (result)=>{
+                Swal.fire({
+                  position: 'top-end',
+                  icon: 'warning',
+                  title: 'Las clases del alumno se vencieron',
+                  showConfirmButton: false,
+                  timer: 1500
+                })
+              }
+            )
+          }
+        }
+      }
+    )
+  }
+
+  restarFechas(f1: Date, f2: Date) {
+    var aFecha1 = f1.toLocaleString().split('/');
+    var aFecha2 = f2.toLocaleString().split('/');
+    var fFecha1 = Date.UTC( parseInt(aFecha1[2]) , parseInt(aFecha1[1]) - 1, parseInt(aFecha1[0]));
+    var fFecha2 = Date.UTC( parseInt(aFecha2[2]) , parseInt(aFecha2[1]) - 1, parseInt(aFecha2[0]));
+    var dif = fFecha2 - fFecha1;
+    var dias = Math.floor(dif / (1000 * 60 * 60 * 24));
+    console.log(dias)
+    return dias;
+  }
+
 }

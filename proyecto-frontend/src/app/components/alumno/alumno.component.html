@@ -58,8 +58,8 @@
                 <ng-container matColumnDef="usuario">
                     <th mat-header-cell *matHeaderCellDef class="col-1"> Usuario</th>
                     <td mat-cell *matCellDef="let alumno">
-                        <button mat-icon-button color="primary" (click)="redirectToUser(alumno.persona._id)">
-                  <span class="bi-person-check-fill fs-5"></span>
+                        <button mat-icon-button color="accent" (click)="redirectToUser(alumno.persona._id)">
+                  <span class="bi-person fs-5"></span>
                 </button>
                     </td>
                 </ng-container>
@@ -79,7 +79,7 @@
         <img src="../../../../assets/images/No Autorizado.png" class="img-fluid" alt="a">
     </div>
     <div class="row justify-content-center">
-        <button mat-raised-button color="alert" class=" m-5 col-6 col-md-4 " [routerLink]="[ ''] ">
+        <button mat-raised-button color="alert" class=" m-5 col-6 col-md-4 " [routerLink]="[''] ">
     Volver al inicio
   </button>
     </div>

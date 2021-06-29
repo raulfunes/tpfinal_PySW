@@ -14,6 +14,24 @@ pagoCtrl.getPagoAlumno = async(req, res)=>{
     res.json(pagos);
 }
 
+pagoCtrl.getUltimoPago = async(req, res)=>{
+    try{
+        var pagos = await Pago.findOne({alumno: req.params.alumno}).sort({fecha_pago:-1})
+        res.json({
+            'status': '1',
+            'ultimo_pago': pagos.fecha_pago
+        });
+    }
+    catch(error){
+        res.json({
+            'status': '0',
+            'msg': "No se encontraron pagos"
+        });
+    }
+
+}
+
+
 pagoCtrl.createPago = async(req, res)=>{
     var pago = new Pago(req.body);
     try{

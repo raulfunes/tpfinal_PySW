@@ -7,6 +7,7 @@ const authCtrl = require('./../controllers/auth.controller')
 router.post('/',[authCtrl.verifyToken, authCtrl.isEntrenador], pagoCtrl.createPago);
 router.get('/',authCtrl.verifyToken, pagoCtrl.getPagos);
 router.get('/:alumno',authCtrl.verifyToken, pagoCtrl.getPagoAlumno);
+router.get('/alumno/:alumno', pagoCtrl.getUltimoPago);
 router.put('/:id',[authCtrl.verifyToken, authCtrl.isEntrenador], pagoCtrl.editPago);
 router.delete('/:id',[authCtrl.verifyToken, authCtrl.isEntrenador], pagoCtrl.deletePago);
 //exportacion del modulo de rutas
