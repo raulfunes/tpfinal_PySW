@@ -156,7 +156,7 @@ export class AlumnoComponent implements OnInit {
   redirectToUser(id_persona: String) {
     this.usuarioService.getUsuario(id_persona).subscribe(
       (result) => {
-        if (result.length > 0) {
+        if (result != null) {
           Swal.fire({
             position: 'top-end',
             icon: 'warning',

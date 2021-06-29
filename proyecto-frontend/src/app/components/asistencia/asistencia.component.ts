@@ -198,7 +198,6 @@ export class AsistenciaComponent implements OnInit {
             if (result.isConfirmed) {
               const dialogRef = this.dialog.open(RutinaFormComponent, {
                 width: '700px',
-                height: '500px',
                 data: {
                   asistencia_id: asistencia._id,
                 }
@@ -238,7 +237,6 @@ export class AsistenciaComponent implements OnInit {
             if (result.isConfirmed) {
               const dialogRef = this.dialog.open(RutinaFormComponent, {
                 width: '700px',
-                height: '500px',
                 data: {
                   asistencia_id: asistencia._id,
                 }

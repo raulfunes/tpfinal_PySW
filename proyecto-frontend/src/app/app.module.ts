@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { MatNativeDateModule } from '@angular/material/core';
+import { ErrorStateMatcher, MatNativeDateModule, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -111,6 +111,7 @@ import { FacebookModule } from 'ngx-fb';
 
   providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
     LoginService,
+    {provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher},
   {
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptorService,

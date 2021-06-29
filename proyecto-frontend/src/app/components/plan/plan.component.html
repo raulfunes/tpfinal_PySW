@@ -1,25 +1,30 @@
-<div class="row justify-content-center" *ngIf="ready">
-  <mat-card class="col-12 col-md-4 m-3"   *ngFor="let plan of planes">
-    <mat-card-header>
-      <div mat-card-avatar class="example-header-image"><img src="../../../assets/images/fondoCompleto.jpg" alt="Logo" class="w-100 rounded-circle"></div>
-      <mat-card-title class="w-100"> {{plan.nombre}}
-        <button mat-icon-button class="margen">
-          <span class="bi-pen"></span>
-        </button>
-      </mat-card-title>
-
-      <mat-card-subtitle>{{plan.dias}} Dias x MES</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <p>
-       {{plan.descripcion}}
-      </p>
-    </mat-card-content>
-  </mat-card>
-
-</div>
-<div class="row">
-      <button mat-button class="col-1 m-3">
-        <img src="../../../assets/images/suma.png" class="img-fluid" alt="">
+<div class="row" *ngIf="ready">
+  <div class="col-11">
+    <div class="row justify-content-center">
+      <mat-card class="col-12 col-md-4 m-3" *ngFor="let plan of planes">
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image">
+            <img src="../../../assets/images/fondoCompleto.jpg" alt="Logo" class="w-100 rounded-circle">
+        </div>
+          <mat-card-title class="w-100"> {{plan.nombre}}
+            <button mat-icon-button *ngIf="rol.descripcion == 'Entrenador'" (click)="modificarPlan(plan)" class="margen">
+              <span class="bi-pen "></span>
+            </button>
+          </mat-card-title>
+          <mat-card-subtitle>{{plan.dias}} Dias x MES</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            {{plan.descripcion}}
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <div class="col-1" *ngIf="rol.descripcion == 'Entrenador'">
+    <div class="row">
+      <button mat-icon-button class="col-1 m-3" (click)="crearPlan()">
+        <img src="../../../assets/images/suma.png " class="img-fluid " alt=" ">
       </button>
-</div>
+    </div>
+  </div>

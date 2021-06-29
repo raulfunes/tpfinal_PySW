@@ -1,36 +1,44 @@
+<div class="row">
+  <div mat-dialog-title class="col-10">
+    PLAN
+    <br>
+    <span *ngIf="accion == 'update'" class="fs-6 text-light">Modificar Plan</span>
+    <span *ngIf="accion == 'new'" class="fs-6 text-light">Registrar Plan</span>
+  </div>
+  <button mat-icon-button color="accent" [mat-dialog-close]="true" class="col-1">
+    <span class="bi-x-lg"></span>
+  </button>
+</div>
+<div mat-dialog-content>
+  <form action="" [formGroup]="formPlan" class="row mt-3 p-5">
+    <mat-form-field appearance="fill" class="col-12">
+      <mat-label>Nombre: </mat-label>
+      <input matInput formControlName="nombre" required>
+    </mat-form-field>
 
-<form action="" [formGroup] = "formPlan" class="row mt-3 p-5">
-<mat-form-field appearance="fill" class="col-12 col-md-4">
-    <mat-label>Nombre: </mat-label>
-    <input matInput formControlName="nombre" required>
-  </mat-form-field>
+    <mat-form-field appearance="fill" class="col-12">
+      <mat-label>Descripcion: </mat-label>
+      <textarea matInput formControlName="descripcion" required cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+        cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5"></textarea>
+    </mat-form-field>
 
-  <mat-form-field appearance="fill" class="col-12 col-md-9 mt-3">
-    <mat-label>Descripcion: </mat-label>
-    <textarea matInput  formControlName="descripcion" required  
-    cdkTextareaAutosize
-    #autosize="cdkTextareaAutosize"
-    cdkAutosizeMinRows="1"
-    cdkAutosizeMaxRows="5"></textarea>
-  </mat-form-field>
+    <mat-form-field appearance="fill" class="col-12">
+      <mat-label>Dias: </mat-label>
+      <input matInput type="number" formControlName="dias" required>
+    </mat-form-field>
 
-  <mat-form-field appearance="fill" class="col-12 col-md-4 mt-3">
-    <mat-label>Dias: </mat-label>
-    <input matInput type="number" formControlName="dias" required>
-  </mat-form-field>
+    <mat-form-field appearance="fill" class="col-12">
+      <mat-label>Monto: </mat-label>
+      <input matInput type="number" formControlName="monto" required>
+    </mat-form-field>
 
-  <mat-form-field appearance="fill" class="col-12 col-md-4 mt-3">
-    <mat-label>Monto: </mat-label>
-    <input matInput type="number" formControlName="monto" required>
-  </mat-form-field>
-
-  <div class="row justify-content-evenly p-5">
-    <button mat-raised-button color="primary" class="col-12 col-md-3" (click)="agregarPlan()">
+    <div class="row justify-content-evenly p-5">
+      <button (click)="agregarPlan()" [mat-dialog-close]="true" *ngIf="accion == 'new'" mat-raised-button color="primary" class="col-12">
         Agregar
       </button>
-      <button mat-raised-button class="col-12 col-md-3">
+      <button (click)="modificarPlan()" [mat-dialog-close]="true" *ngIf="accion == 'update'" mat-raised-button color="primary" class="col-12">
         Modificar
       </button>
-  </div>
-
-</form>
+    </div>
+  </form>
+</div>
