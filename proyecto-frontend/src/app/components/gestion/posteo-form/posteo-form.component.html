@@ -1,1 +1,26 @@
-<p>posteo-form works!</p>
+<div class="row">
+    <div mat-dialog-title class="col-10">
+        ¿Que deseas publicar?
+        <br>
+        <span *ngIf="accion == 'new'" class="fs-6 text-light">Nueva Publicacion</span>
+        <span *ngIf="accion == 'update'" class="fs-6 text-light">Modificar Publicacion</span>
+    </div>
+
+    <button mat-icon-button color="accent" [mat-dialog-close]="true" class="col-1">
+      <span class="bi-x-lg"></span>
+  </button>
+</div>
+<div mat-dialog-content>
+    <form [formGroup]="postForm">
+        <mat-form-field appearance="fill" class="col-12">
+            <mat-label>Descripcion: </mat-label>
+            <textarea matInput formControlName="mensaje" required cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+              cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5"></textarea>
+          </mat-form-field>
+    
+          <button *ngIf="accion == 'new'" mat-raised-button (click)="postFb()" [mat-dialog-close]="close">Postear</button>
+          <button *ngIf="accion == 'update'" mat-raised-button (click)="modifyFb()" [mat-dialog-close]="close">Postear</button>
+    </form>
+
+</div>
+

@@ -12,6 +12,7 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { PagoAlumnoComponent } from './components/pago-alumno/pago-alumno.component';
 import { PlanComponent } from './components/plan/plan.component';
+import { PosteoComponent } from './components/posteo/posteo.component';
 import { RutinaAlumnoComponent } from './components/rutina-alumno/rutina-alumno.component';
 import { SignupComponent } from './components/signup/signup.component';
 
@@ -70,6 +71,10 @@ const routes: Routes = [
   {
     path: 'pago',
     component: PagoComponent
+  },
+  {
+    path: 'posteo',
+    component: PosteoComponent
   },
   {
     path: 'pago-a/:alumno',

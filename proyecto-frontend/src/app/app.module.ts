@@ -95,7 +95,7 @@ import { FacebookModule } from 'ngx-fb';
     MatSortModule,
     MatPaginatorModule,
     MatIconModule,
-    FacebookModule
+    FacebookModule.forRoot()
   ],
   entryComponents: [
     RutinaFormComponent,

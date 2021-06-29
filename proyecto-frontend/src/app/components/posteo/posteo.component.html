@@ -1,1 +1,30 @@
-<p>posteo works!</p>
+
+<div class="container">
+  <button mat-icon-button (click)="crearPosteo()" *ngIf="rol.descripcion == 'Entrenador'" class="mt-2 bg-fb float-end">
+    <span class="bi-plus fs-1"></span>
+  </button>
+  <div class="row w-100">
+    <div class="col-10 m-3" *ngFor="let post of posteos">
+      <div class="row border border-3 rounded rounded-3 bg-card">
+        <div class="card-header bg-fb">
+          <span class="bi-facebook fs-3 text-white"></span>
+          <button mat-icon-button class="float-end" *ngIf="rol.descripcion == 'Entrenador'" (click)="eliminarPosteo(post.id)"><span class="bi-trash"></span></button>
+          <button mat-icon-button class="float-end" *ngIf="rol.descripcion == 'Entrenador'" (click)="modificarPosteo(post)"><span class="bi-pen"></span></button>
+        </div>
+        <div class="card-body row">
+          <div class="col-12 mb-3">
+            <img src="../../../assets/images/fondoCompleto.jpg" class="rounded rounded-circle" width="40px" alt="" />
+            <div class="d-inline-flex flex-column ps-3">
+              <h5 class="fs-5 fw-bold text-white">NeonGym</h5>
+              <span class="card-subtitle text-white-50">{{formatearFecha(post.created_time)}}</span>
+            </div>
+          </div>
+          <p class="card-text mb-5 text-white">{{post.message}}</p>
+
+          <a href="https://www.facebook.com/NeonGym-112504197750658" class="bi-heart-fill fs-5 me-5 col-1"></a>
+          <a href="https://www.facebook.com/NeonGym-112504197750658" class="bi-share-fill fs-5 col-1"></a>   
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
