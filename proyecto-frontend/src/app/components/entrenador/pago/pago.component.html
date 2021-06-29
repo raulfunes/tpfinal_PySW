@@ -12,26 +12,13 @@
         </select>
       </div>
   
-      <!-- Plan -->
+      <!-- Informacion de Plan -->
       <div *ngIf="_mostrarPlan" class="row form-group">
         <br>
         <div>Plan Seleccionado: {{ _plan.nombre }}</div>
         <div>D&iacute;as: {{ _plan.dias }}</div>
+        <div>Monto a Pagar: $ {{ _plan.monto }}</div>
         <br>
-      </div>
-      
-      <!-- Monto -->
-      <div class="row form-group">
-        <label class="col-sm-12 col-md-4">Monto - $</label>
-        <input class="form-control col-sm-12 col-md-8" type="text" name="txtMonto" [(ngModel)]="_pago.monto" required pattern="(^[1-9][0-9].[0-9][0-9]|^[1-9][0-9]$|^[1-9][0-9]*.[0-9])" #txtMonto="ngModel" />
-        <div *ngIf="txtMonto.invalid && (txtMonto.dirty || txtMonto.touched)" class="invalid-feedback">
-          <div *ngIf="txtMonto.errors.required">
-            El campo Monto es requerido
-          </div>
-          <div *ngIf="txtMonto.errors.pattern">
-            Solo se admiten precios mayores a ceros y hasta dos decimales
-          </div>
-        </div>
       </div>
   
       <!-- Tipo de Pago -->
@@ -44,6 +31,7 @@
       </div>
     </div>
     <div class="card-footer">
+      
       <!-- Botones -->
       <div class="form-group text-center">
         <button type="button" class="btn btn-success" [disabled]="!pagoForm.form.valid" (click)="agregarPago('printJS-form')"><i class="fas fa-save fal"></i>&nbsp;Agregar Pago</button>
