@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Persona } from 'src/app/models/persona';
@@ -20,10 +21,11 @@ export class SignupComponent implements OnInit {
   usuarioFormGroup: FormGroup;
   roles: Array<Rol>;
   persona:Persona
-  usuario:Usuario;
+  usuario:Usuario = new Usuario();
   hide:boolean = true;
   accion:string;
   alumno_id: string;
+  nombre_valido: boolean = true;
   constructor(private _formBuilder: FormBuilder, 
     private router:Router, 
     private rolService: RolService, 
@@ -32,6 +34,7 @@ export class SignupComponent implements OnInit {
     private activatedRoute: ActivatedRoute, 
     private route: Router, 
     public dialogRef: MatDialogRef<SignupComponent>,
+    
     @Inject(MAT_DIALOG_DATA) public data: any,) { 
     this.load();
     this.listRoles();
@@ -116,10 +119,12 @@ export class SignupComponent implements OnInit {
     this.usuario = this.usuarioFormGroup.value;
     this.personaSevice.getPersona(this.alumno_id).subscribe(
       (resultPersona)=>{
+        console.log(resultPersona);
         if(resultPersona != []){
           this.usuario.persona = resultPersona
           this.usuarioService.postUsuario(this.usuario).subscribe(
             (resultUsuario)=>{
+              console.log(resultUsuario);
               if(resultUsuario.status == "1"){
                 Swal.fire({
                   position: 'top-end',
@@ -132,6 +137,19 @@ export class SignupComponent implements OnInit {
               }
             }
           )
+        }
+      }
+    )
+  }
+
+  comprobarUsername(){
+    this.usuarioService.comprobarNombre(this.usuarioFormGroup.value.username).subscribe(
+      (result)=>{
+        if(result.status == "1"){
+          this.nombre_valido = false;
+        }
+        else{
+          this.nombre_valido = true;
         }
       }
     )

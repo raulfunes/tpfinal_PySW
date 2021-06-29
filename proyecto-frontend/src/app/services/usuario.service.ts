@@ -23,6 +23,17 @@ export class UsuarioService {
     return this.http.get(this.urlbase + "usuario/" + persona, option);
   }
 
+  comprobarNombre(user: String):Observable<any>{
+      let option={
+        headers: new HttpHeaders({
+        }),
+        params: new HttpParams({
+        })
+  
+      }
+      return this.http.get(this.urlbase + "usuario/nombre/" + user, option);
+  }
+
   postUsuario(usuario: Usuario):Observable<any>{
     let option={
       headers: new HttpHeaders({

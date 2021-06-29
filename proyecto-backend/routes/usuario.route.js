@@ -5,6 +5,7 @@ const router = express.Router();
 const usuarioCtrl = require('./../controllers/usuario.controller');
 // definiendo rutas
 router.post('/', usuarioCtrl.createUsuario);
+router.get('/nombre/:nombre', usuarioCtrl.comprobarNombre);
 router.post('/login', usuarioCtrl.loginUsuario);
 router.get('/:persona',[authCtrl.verifyToken, authCtrl.isEntrenador], usuarioCtrl.getUsuario);
 //exportacion del modulo de rutas
